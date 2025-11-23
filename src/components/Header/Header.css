@@ -1,7 +1,40 @@
 .header {
-    width: 100%;
+    margin-top: 12px;
+    width: 100vw;
     height: 70px;
-    background-color: #000;
     position: fixed;
     top: 0;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    width: 54px;
+    height: 54px;
+}
+
+.logo:last-child {
+    margin-right: 28px;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: scale(110%);
+    transition: scale 0.3s;
+}
+
+.img-balance {
+    width: 36px;
+    height: 36px;
+    margin-right: 24px;
+}
+
+.balance {
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }

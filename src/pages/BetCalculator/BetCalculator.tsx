@@ -1,5 +1,7 @@
 import './BetCalculator.css'
 import {useEffect, useState} from "react";
+import useSound from "use-sound";
+import boopSfx from '../../assets/sounds/betCalcClick.mp3'
 
 interface BetRecord {
   value: number;
@@ -10,6 +12,8 @@ interface BetRecord {
 }
 
 export const BetCalculator = () => {
+
+  const [play] = useSound(boopSfx)
 
   const [value, setValue] = useState<number>(0);
   const [coef, setCoef] = useState<number>(0);
@@ -67,6 +71,7 @@ export const BetCalculator = () => {
   }
 
   const calculateWin = () => {
+    play();
     if (coef <= 0) {
       return 0;
     } else if (value <= 0) {

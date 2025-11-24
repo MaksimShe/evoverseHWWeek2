@@ -9,15 +9,15 @@ export const MainMenu = () => {
   const links = [
     {
       linkTo: '/slot-machine',
-      name: 'Slot Machine',
+      name: 'Slot Machine not ready',
     },
     {
       linkTo: '/crash-game',
-      name: 'Crash game',
+      name: 'Crash game not ready',
     },
     {
       linkTo: '/card-flipper',
-      name: 'Card Flipper',
+      name: 'Card Flipper not ready',
     },
     {
       linkTo: '/bet-calculator',

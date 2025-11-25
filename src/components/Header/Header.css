@@ -5,9 +5,18 @@
     position: fixed;
     top: 0;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
     gap: 16px;
+}
+
+.goHomeWalter {
+    margin-left: 48px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
 }
 
 .logo {

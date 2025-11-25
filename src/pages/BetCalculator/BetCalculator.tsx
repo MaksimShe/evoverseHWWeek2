@@ -1,7 +1,10 @@
 import './BetCalculator.css'
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import useSound from "use-sound";
 import boopSfx from '../../assets/sounds/betCalcClick.mp3'
+import { Input } from "../../components/atoms/Input.tsx";
+
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
 interface BetRecord {
   value: number;
@@ -11,15 +14,55 @@ interface BetRecord {
   date: string;
 }
 
+const BET_TYPES = [
+  {
+    id: 0,
+    name: "Sport!",
+    nameProp: "sport",
+  },
+  {
+    id: 1,
+    name: "Card games!",
+    nameProp: "card_games",
+  },
+  {
+    id: 2,
+    name: "Slots!",
+    nameProp: "slots",
+  }
+]
+
+const TABLE_COL_TITLE = ['Bet Cash', 'Coef', 'Type', 'Win', 'Date'];
+
 export const BetCalculator = () => {
 
   const [play] = useSound(boopSfx)
-
+  const { hasSound } = useAppContext();
   const [value, setValue] = useState<number>(0);
   const [coef, setCoef] = useState<number>(0);
   const [betType, setBetType] = useState<number | null>(null);
 
-  const [history, setHistory] = useState<BetRecord[]>([]);
+  const [history, setHistory] = useState<BetRecord[]>(() => {
+    const data = localStorage.getItem("bets");
+    return data ? JSON.parse(data) : [];
+  });
+
+  const handleValueChange = (value: number) => {
+    if (hasSound) play();
+    setValue(value);
+  };
+
+  const handleCoefChange = (value: number) => {
+    if (hasSound) play();
+    setCoef(value);
+  };
+
+  const clearForm = () => {
+    setBetType(null);
+    setCoef(0);
+    setValue(0)
+  }
+
 
   const saveResult = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -40,22 +83,20 @@ export const BetCalculator = () => {
       const newData = [...oldData, calc];
 
       localStorage.setItem("bets", JSON.stringify(newData));
-      setCoef(0);
-      setValue(0);
+      clearForm();
 
     } else {
       alert("Please enter all fields");
     }
   };
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("bets") || "[]");
-    setHistory(data);
-  }, []);
-
   const clearHistory = () => {
+    clearForm();
     setHistory([]);
+
     localStorage.removeItem("bets");
+    if (hasSound) play();
+
   }
 
   const calculateMultiplier = () => {
@@ -71,7 +112,6 @@ export const BetCalculator = () => {
   }
 
   const calculateWin = () => {
-    play();
     if (coef <= 0) {
       return 0;
     } else if (value <= 0) {
@@ -83,48 +123,57 @@ export const BetCalculator = () => {
 
   return (
     <main className="bet-calculator">
-      <form className="bet-form">
-        <input
-          type="number"
-          className="bet-input"
-          placeholder="Enter cash"
-          value={value === 0 ? '' : value}
-          onChange={(e) => setValue(+e.target.value)}
+      <form className="bet-form" onSubmit={(e) => e.preventDefault()}>
+        <Input
+          type={'number'}
+          value={value}
+          handleValue={handleValueChange}
+          placeholder={"Enter cash"}
         />
-        <input
-          type="number"
-          className="bet-input"
-          placeholder="Enter coefficient"
-          value={coef === 0 ? '' : coef}
-          onChange={(e) => setCoef(+e.target.value)}
+        <Input
+          type={'number'}
+          value={coef}
+          handleValue={handleCoefChange}
+          placeholder={"Enter coefficient"}
         />
 
         <fieldset className="bet-type">
           <legend>Select a type of bet:</legend>
-          <div>
-            <input type="radio" name="betType" id="sport" value="0" onClick={() => setBetType(0)} />
-            <label htmlFor="sport">Sport</label>
-          </div>
-          <div>
-            <input type="radio" name="betType" id="slot" value="1" onClick={() => setBetType(1)} />
-            <label htmlFor="slot">Slot</label>
-          </div>
-          <div>
-            <input type="radio" name="betType" id="cards" value="2" onClick={() => setBetType(2)} />
-            <label htmlFor="cards">Card game</label>
-          </div>
+          {
+            BET_TYPES.map(radioBtn => (
+              <div key={radioBtn.id}>
+                <input
+                  type='radio'
+                  name='betType'
+                  id={radioBtn.nameProp}
+                  value={radioBtn.id}
+                  checked={betType === radioBtn.id}
+                  onChange={() => {
+                    setBetType(radioBtn.id);
+                    if (hasSound) play();
+                  }} />
+                <label htmlFor={radioBtn.nameProp}>{radioBtn.name}</label>
+              </div>
+            ))
+          }
         </fieldset>
 
         <button
           className="button"
           type="submit"
-          onClick={(event) => saveResult(event)}
+          onClick={(event) => {
+            saveResult(event);
+            if (hasSound) play();
+          }}
         >
           Save result
         </button>
         <button
           className="button"
-          onClick={() => clearHistory()}>
+          onClick={() => {
+            clearHistory();
+            if (hasSound) play();
+        }}>
           Clear history
         </button>
     </form>
@@ -142,17 +191,17 @@ export const BetCalculator = () => {
           <table className="bet-history-table">
             <thead>
             <tr>
-              <th>Cash</th>
-              <th>Coef</th>
-              <th>Type</th>
-              <th>Win</th>
-              <th>Date</th>
+              {
+                TABLE_COL_TITLE.map((title) => (
+                  <th key={title}>{title}</th>
+                ))
+              }
             </tr>
             </thead>
 
             <tbody>
-            {history.map((item, i) => (
-              <tr key={i}>
+            {history.map((item) => (
+              <tr key={item.date}>
                 <td className='value_cell'>{item.value}</td>
                 <td className='coef_cell'>{item.coef}</td>
                 <td className='type_cell'>

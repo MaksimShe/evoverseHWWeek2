@@ -3,8 +3,11 @@ import './MainMenu.css'
 import useSound from "use-sound";
 import boopSfx from '../../assets/sounds/hoverSound.mp3'
 
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
+
 export const MainMenu = () => {
   const [play] = useSound(boopSfx);
+  const { hasSound } = useAppContext();
 
   const links = [
     {
@@ -33,7 +36,7 @@ export const MainMenu = () => {
             <NavLink
               to={link.linkTo}
               className="main-menu-link"
-              onMouseEnter={() => play()}>
+              onMouseEnter={() => hasSound && play()}>
               {link.name}
             </NavLink>
           </li>

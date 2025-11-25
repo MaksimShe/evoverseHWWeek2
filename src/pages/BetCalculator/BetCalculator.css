@@ -2,6 +2,7 @@ body {
     background-image: url("/src/images/calculator-bgc.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    color: white;
 }
 
 .bet-calculator {
@@ -100,5 +101,6 @@ td {
     border-radius: 4px;
     font-size: 20px;
     width: 220px;
+    color: white;
     font-family: "Pixelify Sans", sans-serif;
 }

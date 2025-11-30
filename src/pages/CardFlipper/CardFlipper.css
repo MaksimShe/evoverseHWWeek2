@@ -59,3 +59,27 @@ main {
 .card_back {
     transform: rotateY(180deg);
 }
+
+@media (max-width: 1000px) {
+    .card_container {
+        width: 200px;
+        height: 300px;
+        perspective: 1000px;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 740px) {
+    .card_container {
+        width: 350px;
+        height: 525px;
+        perspective: 1000px;
+        cursor: pointer;
+    }
+    .cards {
+        flex-direction: column;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+}

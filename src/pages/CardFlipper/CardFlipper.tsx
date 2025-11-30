@@ -57,8 +57,6 @@ export const CardFlipper = () => {
           </div>
         ))}
       </section>
-
-
     </main>
   )
 }

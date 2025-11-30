@@ -90,9 +90,6 @@
     color: white;
 }
 
-.crash-game-empty-table {
-
-}
 
 .crash-game-table-cash {
     background-color: rgba(31,61,15,0.7);
@@ -178,4 +175,19 @@
     width: 55px;
     border: solid 2px black;
     padding: 8px;
+}
+
+@media (max-width: 700px) {
+    .crash-game-main {
+        flex-direction: column;
+        height: 160vh;
+
+    }
+    .crash-game-section {
+        margin-top: 140px;
+        margin-bottom: 110px;
+    }
+    .crash-game-history {
+        margin-bottom: 100px;
+    }
 }

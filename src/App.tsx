@@ -15,9 +15,9 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<MainMenu />} />
         <Route path="/login" element={<AccountLogin />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainMenu />} />
           <Route path="/bet-calculator" element={<BetCalculator />} />
           <Route path="/card-flipper" element={<CardFlipper />} />
           <Route path="/crash-game" element={<CrashGame />} />

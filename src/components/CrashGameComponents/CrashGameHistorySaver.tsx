@@ -17,7 +17,7 @@ export const CrashGameHistorySaver = () => {
   const prevBets = getHistory();
 
   return (
-    <table>
+    <table className="crash-game-history">
       <thead>
       <tr>
         {tableTitles.map(title => <th key={title}>{title}</th>)}
@@ -28,7 +28,7 @@ export const CrashGameHistorySaver = () => {
       {
         prevBets.length > 0 ? (
           prevBets.map((bet: History) => (
-            <tr key={bet.time}>
+            <tr key={bet.time + '_' + bet.cashOut + '_' + bet.maxMltp}>
               <td className="crash-game-table-cash">{bet.bet}</td>
               <td className="crash-game-table-mltp">{bet.multiplier.toFixed(2)}</td>
               <td className="crash-game-table-date">{bet.time}</td>

@@ -56,7 +56,7 @@ export function useAuth() {
 
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
-          .insert([{ id: authData.user.id, email, username, balance: 10 }])
+          .insert([{ id: authData.user.id, email, username, balance: 1000 }])
           .select()
           .single();
 

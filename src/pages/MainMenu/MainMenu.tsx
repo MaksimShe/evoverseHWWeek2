@@ -14,7 +14,7 @@ export const MainMenu = () => {
   const links = [
     {
       linkTo: '/crash-game',
-      name: 'Crash game not ready',
+      name: 'Crash game',
     },
     {
       linkTo: '/card-flipper',

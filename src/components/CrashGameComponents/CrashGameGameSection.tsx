@@ -44,7 +44,7 @@ export const CrashGameGameSection: FC<Props> = (
   const [isFinished, setIsFinished] = useState(false);
   const [counterKey, setCounterKey] = useState(0);
   const [autoStopStatus, setAutoStopStatus] = useState(false)
-  const [autoStop, setAutoStop] = useState(1);
+  const [autoStop, setAutoStop] = useState(1.25);
 
   const { hasSound } = useAppContext()
 
@@ -52,11 +52,9 @@ export const CrashGameGameSection: FC<Props> = (
 
   const add10PercentFromBalance = () => {
     if (hasSound) playClick();
-
+    const increment = +(balance * 0.1).toFixed(2);
     if (balance > bet + 5) {
-      handleBet((prev: number) => {
-        return +(prev + (balance * 0.1)).toFixed(2);
-      });
+      handleBet(bet + increment);
     } else {
       handleBet(balance);
     }
@@ -100,8 +98,8 @@ export const CrashGameGameSection: FC<Props> = (
 
   const changeAutoStop = (val: number) => {
     if (hasSound) playClick();
-    if (autoStop < 1.25 && val < 0) {
-      setAutoStop(1);
+    if (autoStop < 1.5 && val < 0) {
+      setAutoStop(1.25);
     } else {
       setAutoStop(prev => prev + val);
     }
@@ -201,7 +199,7 @@ export const CrashGameGameSection: FC<Props> = (
 
       <div className='crash-game-auto'>
         <button
-          disabled={!autoStopStatus || autoStop === 1}
+          disabled={!autoStopStatus || autoStop === 1.25}
           className="crash-game-auto-btn"
           onClick={() => changeAutoStop(-0.25)}
         >

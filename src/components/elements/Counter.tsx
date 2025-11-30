@@ -19,12 +19,12 @@ export const Counter = ({
   const [value, setValue] = useState(1);
 
   const animationRef = useRef<number | null>(null);
-  const speedRef = useRef(0.003);
+  const speedRef = useRef(0.002);
 
   const toRef = useRef(growsTo);
 
   useEffect(() => {
-    const accelerate = 0.0001;
+    const accelerate = 0.000005;
 
     const animate = () => {
       if (finish) {

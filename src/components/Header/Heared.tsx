@@ -5,6 +5,14 @@ import headerSound from "../../assets/sounds/headerSound.wav";
 import cashAddSound from "../../assets/sounds/cashAdd.mp3"
 import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
+import soundOnIcon from '../../assets/music.png';
+import soundOffIcon from '../../assets/no-music.png';
+import darkModeIcon from '../../assets/moon.png';
+import dayModeIcon from '../../assets/sun.png';
+import goHomeWalterIcon from '../../assets/home.png';
+import giftIcon from '../../assets/gift-box.png';
+import moneyIcon from '../../assets/balance.gif'
+
 export const Header = () => {
   const { isDarkMode, hasSound, user, addMoney, toggleDarkMode, toggleSound } = useAppContext();
   const [playHeaderMainSound] = useSound(headerSound);
@@ -25,23 +33,17 @@ export const Header = () => {
   return (
     <header className="header">
       {
-        location.pathname !== "/"
-
+        (location.pathname !== "/" && location.pathname !== "/login")
           ?
-
         <NavLink to={'/'} className='goHomeWalter' onClick={() => playSound(playHeaderMainSound)}>
           <img
             className='img-home logo'
-            src='/src/assets/home.png'
+            src={goHomeWalterIcon}
             alt='Go home'
           />
         </NavLink>
-
           :
-
-          <div className="goHomeWalter">
-
-          </div>
+          <div className="goHomeWalter"></div>
       }
       <div className="wrapper">
         <div className="header-account">
@@ -50,25 +52,31 @@ export const Header = () => {
           </NavLink>
         </div>
         <div className='balance'>
-          <span>{`${user?.balance.toFixed(2)}`}</span>
-          <img
-            className="img-balance"
-            src='/src/assets/balance.gif'
-            alt='balance-box'
-          />
+          { user &&
+            <>
+              <span>{`${user?.balance.toFixed(2)}`}</span>
+              <img
+                className="img-balance"
+                src={moneyIcon}
+                alt='balance-box'
+              />
+            </>
+          }
+        </div>
+        <div>
+          {user &&
+            <img
+              className="logo"
+              src={giftIcon}
+              alt='gift'
+              onClick={() => takeGift()}
+            />
+          }
         </div>
         <div>
           <img
             className="logo"
-            src='/src/assets/gift-box.png'
-            alt='gift'
-            onClick={() => takeGift()}
-          />
-        </div>
-        <div>
-          <img
-            className="logo"
-            src={isDarkMode ? '/src/assets/sun.png' : '/src/assets/moon.png'}
+            src={isDarkMode ? dayModeIcon : darkModeIcon}
             alt='mode'
             onClick={() => {
               toggleDarkMode();
@@ -79,7 +87,7 @@ export const Header = () => {
         <div>
           <img
             className={`logo ${!hasSound ? 'sound-off' : 'sound-on'}`}
-            src='/src/assets/music.png'
+            src={!hasSound ? soundOffIcon : soundOnIcon}
             alt='sound'
             onClick={() => {
               toggleSound();
@@ -88,6 +96,30 @@ export const Header = () => {
           />
         </div>
       </div>
+      {window.innerWidth < 700 && (
+        <div className="mobile-footer">
+          {
+            (location.pathname !== "/" && location.pathname !== "/login")
+              &&
+            <NavLink to="/" onClick={() => playSound(playHeaderMainSound)}>
+              <img className="img-home logo" src={goHomeWalterIcon} alt="home" />
+            </NavLink>
+          }
+
+          {user && (
+            <div className="balance mobile">
+              <span>{user.balance.toFixed(0)}</span>
+              <img className="img-balance" src={moneyIcon} alt="balance" />
+            </div>
+          )}
+
+          <div className="header-account mobile">
+            <NavLink to="/login">
+              {user?.username || user?.email || "Login"}
+            </NavLink>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

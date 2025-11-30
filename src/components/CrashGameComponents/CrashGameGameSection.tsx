@@ -2,7 +2,7 @@ import cn from "classnames";
 
 import rocket from '../../assets/rocket.png';
 import boom from '../../assets/boom.png';
-import videoBgRocket from "../../images/bg_rocket-crash-game.mp4";
+import bgRocket from "../../images/galaxy.gif";
 
 
 import clickSound from '../../assets/sounds/crash-click.mp3'
@@ -118,14 +118,9 @@ export const CrashGameGameSection: FC<Props> = (
 
   return (
     <section className="crash-game-section">
-      <video
+      <img
         className={"crash-game-bg-rocket"}
-        src={videoBgRocket}
-        autoPlay
-        loop
-        muted
-        onPause={() => gameStatus !== 'active'}
-        controls={false}
+        src={bgRocket}
       />
       <div
         className={cn("crash-game-rocket-wrapper",
@@ -205,7 +200,14 @@ export const CrashGameGameSection: FC<Props> = (
         >
           -
         </button>
-        <p className="crash-game-autu-mltp">{autoStop.toFixed(2)}</p>
+        <p className={cn("crash-game-auto-mltp",
+          {
+            'crash-game-auto-mltp-disabled': !autoStopStatus,
+          }
+        )}
+        >
+          {autoStop.toFixed(2)}
+        </p>
         <button
           disabled={!autoStopStatus}
           className="crash-game-auto-btn"
@@ -214,10 +216,15 @@ export const CrashGameGameSection: FC<Props> = (
           +
         </button>
         <button
-          className="crash-game-auto-btn"
+          className={cn("crash-game-auto-btn",
+            {
+              'crash-game-auto-btn-active': autoStopStatus,
+              'crash-game-auto-btn-disabled': !autoStopStatus,
+            }
+            )}
           onClick={() => changeAutoStopGame()}
         >
-          {autoStopStatus ? 'Off' : 'On' }
+          {autoStopStatus ? 'On' : 'Off' }
         </button>
       </div>
 

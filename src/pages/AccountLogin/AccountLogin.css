@@ -5,33 +5,31 @@
 }
 
 .login-page {
-    min-width: 400px;
+    min-width: 300px;
     max-width: 800px;
     margin: auto;
-    margin-top: 80px;
     padding: 30px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: rgba(35, 29, 29, 0.3);
+    backdrop-filter: blur(5px);
     text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.login-page h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-family: 'Jersey 10', sans-serif;
+    font-size: 16px;
+    color: wheat;
 }
 
 .login-input {
-    width: 350px;
+    min-width: 240px;
+    max-width: 400px;
+    width: 100%;
     padding: 10px 12px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 20px;
     box-sizing: border-box;
+    font-family: 'Jersey 10', sans-serif;
 }
 
 .logined-btn {
@@ -67,12 +65,12 @@
 }
 
 .login-btn {
-    width: 140px;
+    width: 50%;
     padding: 10px 0;
-    margin: 5px 1%;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
+    margin: 5px;
+    border: solid 1px #3aff00;
+    border-radius: 8px;
+    background-color: rgba(39, 38, 38, 0.9);
     color: #fff;
     font-size: 16px;
     cursor: pointer;
@@ -90,24 +88,18 @@
 
 .account-logined {
     max-width: 400px;
-    margin: 50px auto;
-    margin-top: 80px;
+    margin: auto;
     padding: 30px;
-    border: 1px solid #ddd;
+    background-color: rgba(35, 29, 29, 0.3);
+    backdrop-filter: blur(5px);
+    border: solid 1px #3aff00;
     border-radius: 8px;
-    background-color: #f1f1f1;
     text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.account-logined h2 {
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 22px;
 }
 
 .account-logined button {
     padding: 10px 20px;
-    font-size: 16px;
     border-radius: 4px;
     border: none;
     background-color: #dc3545;
@@ -122,7 +114,15 @@
 
 .login-loader {
     margin: auto;
-    font-family: "Pixelify Sans", sans-serif;
+    font-family: 'Jersey 10', sans-serif;
     font-size: 56px;
     color: rgba(213, 1, 1, 0.99);
+}
+
+.login-title {
+    font-family: 'Jersey 10', sans-serif;
+    font-size: 52px;
+    color: #ffffff;
+    margin: 0;
+    margin-bottom: 8px;
 }

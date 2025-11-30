@@ -9,6 +9,7 @@
     gap: 50px;
     padding: 20px;
     border-radius: 30px;
+    background-color: rgba(23, 18, 18, 0.55);
     backdrop-filter: blur(10px);
 }
 

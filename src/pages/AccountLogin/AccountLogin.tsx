@@ -52,7 +52,7 @@ export const AccountLogin = () => {
     return (
       <main className="login-bg">
         <div className="account-logined">
-          <h2>Welcome {user.username || user.email}</h2>
+          <h2 className="login-title">Welcome, {user.username || user.email}</h2>
           <button onClick={handleSignOut} className='logined-btn'>Log Out</button>
           <NavLink to={"/"} className='logined-btn'>Go main menu</NavLink>
         </div>
@@ -62,7 +62,7 @@ export const AccountLogin = () => {
   return (
     <main className="login-bg">
       <div className="login-page">
-        <h2>{isRegister ? "Register" : "Login"}</h2>
+        <h2 className="login-title">{isRegister ? "Register" : "Login"}</h2>
         <div className="login-input-container">
           <input
             className="login-input"

@@ -13,6 +13,7 @@
     margin-top: 160px;
     margin-inline: auto;
     display: flex;
+    background-color: rgba(23, 18, 18, 0.55);
     backdrop-filter: blur(5px);
     border-radius: 44px;
     width: fit-content;
@@ -28,7 +29,7 @@
 }
 
 .bet-section-result {
-    margin-left: 200px;
+    margin-left: 130px;
 }
 
 .bet-type {
@@ -38,12 +39,9 @@
     font-size: 18px;
 }
 
-.bet-input {
-    width: 100%;
-}
-
 .bet-result {
     font-size: 32px;
+    width: 320px;
 }
 
 .bet-win-sum {
@@ -101,11 +99,12 @@ td {
     background-color: rgba(89, 71, 71, 0.3);
     border: none;
     height: 20px;
+    padding: 2px 5px;
     border-radius: 4px;
     font-size: 20px;
     width: 220px;
     color: white;
-    font-family: "Pixelify Sans", sans-serif;
+    font-family: 'Jersey 10', sans-serif;
 }
 
 @media (max-width: 1000px) {

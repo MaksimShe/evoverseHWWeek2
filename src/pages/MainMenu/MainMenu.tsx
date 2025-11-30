@@ -1,26 +1,24 @@
 import { NavLink } from "react-router-dom"
 import './MainMenu.css'
 import useSound from "use-sound";
-import boopSfx from '../../assets/sounds/hoverSound.mp3'
+import hoverSound from '../../assets/sounds/hoverSound.mp3'
+import clickSound from '../../assets/sounds/clickMenu.mp3'
 
 import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
 export const MainMenu = () => {
-  const [play] = useSound(boopSfx);
+  const [playHover] = useSound(hoverSound);
+  const [playClick] = useSound(clickSound);
   const { hasSound } = useAppContext();
 
   const links = [
-    {
-      linkTo: '/slot-machine',
-      name: 'Slot Machine not ready',
-    },
     {
       linkTo: '/crash-game',
       name: 'Crash game not ready',
     },
     {
       linkTo: '/card-flipper',
-      name: 'Card Flipper not ready',
+      name: 'Card Flipper',
     },
     {
       linkTo: '/bet-calculator',
@@ -36,7 +34,8 @@ export const MainMenu = () => {
             <NavLink
               to={link.linkTo}
               className="main-menu-link"
-              onMouseEnter={() => hasSound && play()}>
+              onClick={() => hasSound && playClick()}
+              onMouseEnter={() => hasSound && playHover()}>
               {link.name}
             </NavLink>
           </li>

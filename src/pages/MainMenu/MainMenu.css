@@ -20,6 +20,7 @@
     padding-right: 40px;
     margin-top: 200px;
     backdrop-filter: blur(4px);
+    border-radius: 10px;
 }
 
 .main-menu-link {

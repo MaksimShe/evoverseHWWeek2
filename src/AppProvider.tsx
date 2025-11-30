@@ -1,5 +1,6 @@
 import {type ReactNode, useState} from "react";
-import {AppContext as AppContext1} from "./AppContext.tsx";
+import {AppContext} from "./AppContext.tsx";
+import {useAuth} from "./hooks/useAuth.ts";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -7,14 +8,16 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [hasSound, setHasSound] = useState(true);
+  const [hasSound, setHasSound] = useState(false);
+  const {user, addMoney} = useAuth();
 
   const toggleDarkMode = () => setIsDarkMode(prev => !prev);
   const toggleSound = () => setHasSound(prev => !prev);
-
   return (
-    <AppContext1 value={{ isDarkMode, hasSound, toggleDarkMode, toggleSound }}>
+
+    <AppContext value={{ isDarkMode, hasSound, user, addMoney, toggleDarkMode, toggleSound }}>
       {children}
-    </AppContext1>
+    </AppContext>
+
   );
 };

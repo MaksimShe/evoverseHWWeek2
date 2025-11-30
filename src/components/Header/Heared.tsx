@@ -1,36 +1,56 @@
 import './Header.css'
-import type {FC} from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import useSound from "use-sound";
 import headerSound from "../../assets/sounds/headerSound.wav";
+import cashAddSound from "../../assets/sounds/cashAdd.mp3"
 import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
-interface Props {
-  balance: number;
-  addBonus: () => void;
-}
+export const Header = () => {
+  const { isDarkMode, hasSound, user, addMoney, toggleDarkMode, toggleSound } = useAppContext();
+  const [playHeaderMainSound] = useSound(headerSound);
+  const [playCashAddSound] = useSound(cashAddSound);
+  const location = useLocation();
 
-export const Header: FC<Props> = ({ balance, addBonus }) => {
-  const { isDarkMode, hasSound, toggleDarkMode, toggleSound } = useAppContext();
-  const [play] = useSound(headerSound);
-
-  const playSound = () => {
-    if (hasSound) play();
+  const playSound = (sound: any) => {
+    if (hasSound) sound();
   }
 
+  const takeGift = () => {
+    if (user) {
+      addMoney(5);
+      playSound(playCashAddSound);
+    }
+  }
 
   return (
     <header className="header">
-      <NavLink to={'/'} className='goHomeWalter' onClick={() => hasSound && play()}>
-        <img
-          className='img-home logo'
-          src='/src/assets/home.png'
-          alt='Go home'
-        />
-      </NavLink>
+      {
+        location.pathname !== "/"
+
+          ?
+
+        <NavLink to={'/'} className='goHomeWalter' onClick={() => playSound(playHeaderMainSound)}>
+          <img
+            className='img-home logo'
+            src='/src/assets/home.png'
+            alt='Go home'
+          />
+        </NavLink>
+
+          :
+
+          <div className="goHomeWalter">
+
+          </div>
+      }
       <div className="wrapper">
+        <div className="header-account">
+          <NavLink to={'/login'}>
+            {`${user?.username || user?.email || 'Login'}`}
+          </NavLink>
+        </div>
         <div className='balance'>
-          <span>{`${balance}`}</span>
+          <span>{`${user?.balance.toFixed(2)}`}</span>
           <img
             className="img-balance"
             src='/src/assets/balance.gif'
@@ -42,10 +62,7 @@ export const Header: FC<Props> = ({ balance, addBonus }) => {
             className="logo"
             src='/src/assets/gift-box.png'
             alt='gift'
-            onClick={() => {
-              addBonus();
-              playSound();
-            }}
+            onClick={() => takeGift()}
           />
         </div>
         <div>
@@ -55,18 +72,18 @@ export const Header: FC<Props> = ({ balance, addBonus }) => {
             alt='mode'
             onClick={() => {
               toggleDarkMode();
-              playSound();
+              playSound(playHeaderMainSound);
             }}
           />
         </div>
         <div>
           <img
-            className="logo"
-            src={hasSound ? '/src/assets/music.png' : '/src/assets/no-music.png'}
+            className={`logo ${!hasSound ? 'sound-off' : 'sound-on'}`}
+            src='/src/assets/music.png'
             alt='sound'
             onClick={() => {
               toggleSound();
-              playSound();
+              playSound(playHeaderMainSound);
             }}
           />
         </div>

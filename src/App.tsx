@@ -8,6 +8,7 @@ import {CardFlipper} from "./pages/CardFlipper/CardFlipper.tsx";
 import {CrashGame} from "./pages/CrashGame/CrashGame.tsx";
 import {AccountLogin} from "./pages/AccountLogin/AccountLogin.tsx";
 import {ProtectedRoute} from "./ProtectedRoute.tsx";
+import {CaseGame} from "./pages/CaseGame/CaseGame.tsx";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/bet-calculator" element={<BetCalculator />} />
           <Route path="/card-flipper" element={<CardFlipper />} />
           <Route path="/crash-game" element={<CrashGame />} />
+          <Route path="/case-game" element={<CaseGame />} />
         </Route>
       </Routes>
     </>

@@ -23,6 +23,10 @@ export const MainMenu = () => {
     {
       linkTo: '/bet-calculator',
       name: 'Bet Calculator',
+    },
+    {
+      linkTo: '/case-game',
+      name: 'Case Game',
     }
   ];
 

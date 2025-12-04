@@ -3,8 +3,7 @@ import './MainMenu.css'
 import useSound from "use-sound";
 import hoverSound from '../../assets/sounds/hoverSound.mp3'
 import clickSound from '../../assets/sounds/clickMenu.mp3'
-
-import {useAppContext} from "../../hooks/UseAppContext.tsx";
+import { useAppContext } from "../../hooks/UseAppContext.tsx";
 
 export const MainMenu = () => {
   const [playHover] = useSound(hoverSound);

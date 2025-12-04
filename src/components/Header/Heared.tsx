@@ -1,9 +1,9 @@
 import './Header.css'
-import {NavLink, useLocation} from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import useSound from "use-sound";
 import headerSound from "../../assets/sounds/headerSound.wav";
 import cashAddSound from "../../assets/sounds/cashAdd.mp3"
-import {useAppContext} from "../../hooks/UseAppContext.tsx";
+import { useAppContext } from "../../hooks/UseAppContext.tsx";
 
 import soundOnIcon from '../../assets/music.png';
 import soundOffIcon from '../../assets/no-music.png';
@@ -12,6 +12,7 @@ import dayModeIcon from '../../assets/sun.png';
 import goHomeWalterIcon from '../../assets/home.png';
 import giftIcon from '../../assets/gift-box.png';
 import moneyIcon from '../../assets/balance.gif'
+import {roundBalance} from "../../helper/roundBalance.ts";
 
 export const Header = () => {
   const { isDarkMode, hasSound, user, addMoney, toggleDarkMode, toggleSound } = useAppContext();
@@ -28,6 +29,16 @@ export const Header = () => {
       addMoney(5);
       playSound(playCashAddSound);
     }
+  }
+
+  const toggleMode = () => {
+    playSound(playHeaderMainSound);
+    toggleDarkMode();
+  }
+
+  const toggleVolume = () => {
+    toggleSound();
+    playSound(playHeaderMainSound);
   }
 
   return (
@@ -54,7 +65,7 @@ export const Header = () => {
         <div className='balance'>
           { user &&
             <>
-              <span>{`${user?.balance.toFixed(2)}`}</span>
+              <span>{`${roundBalance(user?.balance)}`}</span>
               <img
                 className="img-balance"
                 src={moneyIcon}
@@ -69,7 +80,7 @@ export const Header = () => {
               className="logo"
               src={giftIcon}
               alt='gift'
-              onClick={() => takeGift()}
+              onClick={takeGift}
             />
           }
         </div>
@@ -78,10 +89,7 @@ export const Header = () => {
             className="logo"
             src={isDarkMode ? dayModeIcon : darkModeIcon}
             alt='mode'
-            onClick={() => {
-              toggleDarkMode();
-              playSound(playHeaderMainSound);
-            }}
+            onClick={toggleMode}
           />
         </div>
         <div>
@@ -89,10 +97,7 @@ export const Header = () => {
             className={`logo ${!hasSound ? 'sound-off' : 'sound-on'}`}
             src={!hasSound ? soundOffIcon : soundOnIcon}
             alt='sound'
-            onClick={() => {
-              toggleSound();
-              playSound(playHeaderMainSound);
-            }}
+            onClick={toggleVolume}
           />
         </div>
       </div>

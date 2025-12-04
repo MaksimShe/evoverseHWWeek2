@@ -1,10 +1,10 @@
 import './AccountLogin.css';
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const AccountLogin = () => {
-  const { user, loading, login, register, logout } = useAuth();
+  const { user, loading, handleLogin, register, handleLogout } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,7 @@ export const AccountLogin = () => {
       if (isRegister) {
         await register(email, password, username);
       } else {
-        await login(email, password);
+        await handleLogin(email, password);
       }
     } catch (error: any) {
       setErrorMsg(error.message);
@@ -34,10 +34,6 @@ export const AccountLogin = () => {
   const toggleMode = () => {
     setIsRegister(prev => !prev);
     setErrorMsg("");
-  };
-
-  const handleSignOut = () => {
-    logout();
   };
 
   if (loading) {
@@ -53,7 +49,7 @@ export const AccountLogin = () => {
       <main className="login-bg">
         <div className="account-logined">
           <h2 className="login-title">Welcome, {user.username || user.email}</h2>
-          <button onClick={handleSignOut} className='logined-btn'>Log Out</button>
+          <button onClick={handleLogout} className='logined-btn'>Log Out</button>
           <NavLink to={"/"} className='logined-btn'>Go main menu</NavLink>
         </div>
       </main>

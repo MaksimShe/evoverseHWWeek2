@@ -1,0 +1,261 @@
+.case-game-bg {
+    background-image: url('../../images/bg_case_game.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.case-game-main {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    width: 608px;
+    color: white;
+    background-color: #1D293D80;
+    border: 1px solid rgba(20, 71, 230, 0.76);
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.case-game-titles{
+    margin: 0;
+    text-align: center;
+}
+
+.case-game-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    white-space: nowrap;
+    margin: 0;
+    color: #75869f;
+}
+
+.case-game-cases-select {
+    display: flex;
+    gap: 16px;
+}
+
+.case-game-case {
+    background-color: rgba(49, 65, 88, 0.75);
+    backdrop-filter: blur(4px);
+    width: 140px;
+    height: 136px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.case-game-case:hover {
+    background-color: rgba(57, 96, 151, 0.75);
+}
+
+.case-game-case.case-opening {
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.case-game-case.active {
+    background: linear-gradient(135deg, rgba(21, 93, 252, 0.5), rgba(152, 16, 250, 0.5));
+    transition: background-color 0.3s;
+    border: 2px solid rgba(20, 71, 230, 0.85)
+}
+
+.case-game-case-icon, .case-game-case-name, .case-game-case-price {
+    margin: 0;
+}
+
+.case-game-case-icon {
+    font-size: 42px;
+}
+
+.case-game-case-price {
+    color: #05DF72;
+}
+
+.case-game-roulette {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.case-game-roulette-field-line {
+    width: 5px;
+    height: 244px;
+    background: linear-gradient(180deg, #FDC700 0%, #F0B100 50%, #D08700 100%);
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 1;
+}
+
+.case-game-roulette-field {
+    height: 248px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #0F172B 15%, rgba(28, 57, 142, 0.5) 50%, rgba(89, 22, 139, 0.5) 100%);
+    border: 2px solid #AD46FF4D;
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    width: 100%;
+    overflow: hidden; /* важливо! */
+    position: relative; /* для позиціонування елементів всередині */
+}
+
+.roulette-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.016s linear; /* плавний рух */
+    height: 248px;
+    gap: 16px;
+}
+
+.case-game-roulette-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 180px;
+    box-sizing: border-box;
+    border: 2px solid #0000001A;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.roulette-item {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.roulette-text {
+    text-align: center;
+}
+
+.case-game-roulette-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #00A63E 0%, #009966 100%);
+}
+
+.case-game-content {
+    height: 152px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.case-game-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.case-game-content-item {
+    margin: 0;
+    border: 1px solid #45556C80;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+}
+
+.case-game-group-0 {
+    background: linear-gradient(135deg, #45556C 0%, #314158 100%);
+}
+
+.case-game-group-1 {
+    background: linear-gradient(135deg, #00A63E 0%, #008236 100%);
+}
+
+.case-game-group-2 {
+    background: linear-gradient(135deg, #155DFC 0%, #1447E6 100%);
+}
+
+.case-game-group-3 {
+    background: linear-gradient(135deg, #9810FA 0%, #8200DB 100%);
+}
+
+.case-game-group-4 {
+    background: linear-gradient(135deg, #E60076 0%, #E7000B 100%);
+}
+
+.case-game-group-5 {
+    background: linear-gradient(135deg, #F0B100 0%, #E17100 100%);
+}
+
+.case-game-chances {
+    height: 112px;
+    background: #0F172B80;
+    backdrop-filter: blur(4px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.case-game-chances-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px 46px;
+}
+
+.case-game-chances-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chance-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.chance-dot.common {
+    background-color: #566673;
+}
+
+.chance-dot.uncommon {
+    background-color: #4caf50;
+}
+
+.chance-dot.rare {
+    background-color: #2979ff;
+}
+
+.chance-dot.epic {
+    background-color: #9c27b0;
+}
+
+.chance-dot.legendary {
+    background-color: #f50000;
+}
+
+.chance-dot.gold {
+    background-color: #ffd700;
+}

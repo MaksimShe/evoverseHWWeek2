@@ -1,0 +1,212 @@
+.crash-game-main {
+    background-image: url("/src/images/backgound-crash-game.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: black;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 44px;
+}
+
+.crash-game-section {
+    width: 320px;
+    background-color: rgba(56, 77, 78, 0.5);
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.crash-game-rocket-wrapper {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 1.4s ease-out;
+}
+
+.crash-game-rocket-wrapper.fly {
+    transform: translateX(-50%) translateY(-150px);
+}
+
+.crash-game-rocket-wrapper.flying {
+    transform: translateX(-50%) translateY(-100px);
+}
+
+.crash-game-rocket-wrapper.reset {
+    transform: translateX(-50%) translateY(-150px);
+    transition: none;
+}
+
+.crash-game-rocket-wrapper .crash-game-rocket {
+    transition: filter 0.5s ease;
+}
+
+.crash-game-rocket-wrapper.fly .crash-game-rocket {
+    animation: rocket-shake 0.1s infinite;
+    -webkit-filter: drop-shadow(0 27px 4px #ff6303);
+}
+
+.crash-game-rocket {
+    width: 64px;
+    height: 64px;
+}
+
+.crash-game-play-btn {
+    width: 100%;
+    opacity: 0.8;
+}
+
+.crash-game-play-btn:hover {
+    opacity: 1;
+}
+
+
+.crash-game-boom {
+    width: 64px;
+    height: 64px;
+    -webkit-filter: drop-shadow(0 0 5px #e41414);
+}
+
+@keyframes rocket-shake {
+    0%   { transform: translateX(-2px); }
+    25%  { transform: translateX(2px); }
+    50%  { transform: translateX(-2px); }
+    75%  { transform: translateX(2px); }
+    100% { transform: translateX(-2px); }
+}
+
+
+.crash-game-multiplier {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: white;
+}
+
+.crash-game-history {
+    font-size: 20px;
+}
+
+.crash-game-table-cash {
+    background-color: rgba(31,61,15,0.7);
+}
+
+.crash-game-table-mltp {
+    background-color: rgba(110, 108, 42, 0.7);
+}
+
+.crash-game-table-date {
+    background-color: rgba(91, 42, 110, 0.7);
+}
+
+.crash-game-table-status-lost {
+    background-color: rgba(174, 32, 32, 0.7);
+}
+
+.crash-game-table-status-won {
+    background-color: rgba(46, 143, 37, 0.7);
+}
+
+.crash-game-table-max-mltp {
+    background-color: rgba(47, 189, 232, 0.6);
+}
+
+.crash-game-bg-rocket {
+    border-radius: 20px;
+    object-fit: cover;
+    width: 320px;
+    height: 380px;
+    opacity: 0.7;
+}
+
+.crash-game-bet {
+    display: flex;
+}
+
+.crash-game-bet-btn {
+    margin-top: 8px;
+    margin-right: 4px;
+    width: 24px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px black;
+}
+
+.crash-game-bet-btn:last-child {
+    margin-right: 0;
+}
+
+.crash-game-bet-input {
+    width: 100%;
+    height: 34px;
+    padding: 0;
+    margin-top: 8px;
+    box-sizing: border-box;
+    margin-right: 4px;
+    border-radius: 8px;
+    font-family: 'Jersey 10', sans-serif;
+    text-align: center;
+    font-size: 16px;
+}
+
+.crash-game-auto {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.crash-game-auto-mltp {
+    width: 50px;
+    height: 38px;
+    margin: 0;
+
+    background-color: rgba(36, 36, 36, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: white;
+}
+
+.crash-game-auto-mltp-disabled {
+    opacity: 0.2;
+}
+
+.crash-game-auto-btn {
+    width: 25%;
+    border: solid 2px black;
+    padding: 8px;
+}
+
+.crash-game-auto-btn-active {
+    border: solid 2px #3aff00;
+}
+
+.crash-game-auto-btn-disabled {
+    border: solid 2px #cd0a0a;
+}
+
+@media (max-width: 700px) {
+    .crash-game-main {
+        flex-direction: column;
+        height: 190vh;
+
+    }
+    .crash-game-section {
+        margin-top: 90px;
+        margin-bottom: 110px;
+    }
+    .crash-game-history {
+        margin-bottom: 100px;
+    }
+}

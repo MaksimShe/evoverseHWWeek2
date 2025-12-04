@@ -1,8 +1,8 @@
 import './CaseGame.css';
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import cn from "classnames";
-import { motion, useAnimation } from "framer-motion";
-import { useAppContext } from "../../hooks/UseAppContext.tsx";
+import {motion, useAnimation} from "framer-motion";
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
 import clickSound from "../../assets/sounds/betCalcClick.mp3"
 import useSound from "use-sound";
 
@@ -174,8 +174,6 @@ export const CaseGame = () => {
 
     if (!closestCard) return null;
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const index = Number(closestCard.dataset.index);
     return animationItems[index] || null;
   };

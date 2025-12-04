@@ -1,6 +1,6 @@
-import { type ReactNode, useState } from "react";
-import { AppContext } from "./AppContext.tsx";
-import { useAuth } from "./hooks/useAuth.ts";
+import {type ReactNode, useState} from "react";
+import {AppContext} from "./AppContext.tsx";
+import {useAuth} from "./hooks/useAuth.ts";
 
 interface AppProviderProps {
   children: ReactNode;

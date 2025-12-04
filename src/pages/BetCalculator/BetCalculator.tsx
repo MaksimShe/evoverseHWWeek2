@@ -6,14 +6,13 @@ import btnClick from '../../assets/sounds/clickMenu.mp3'
 import clearHistorySound from '../../assets/sounds/clearHistory.mp3'
 import { Input } from "../../components/elements/Input.tsx";
 
-import { useAppContext } from "../../hooks/UseAppContext.tsx";
-import {roundBalance} from "../../helper/roundBalance.ts";
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
 interface BetRecord {
   value: number;
   coef: number;
   betType: number;
-  win: number;
+  win: string;
   date: string;
 }
 
@@ -38,6 +37,7 @@ const BET_TYPES = [
 const TABLE_COL_TITLE = ['Bet Cash', 'Coef', 'Type', 'Win', 'Date'];
 
 export const BetCalculator = () => {
+
   const [playKbClick] = useSound(keyboardClick)
   const [playBtnClick] = useSound(btnClick)
   const [playClearHistory] = useSound(clearHistorySound)
@@ -72,7 +72,7 @@ export const BetCalculator = () => {
     event.preventDefault();
 
     if (coef > 0 && value > 0 && betType !== null) {
-      const win = roundBalance(value * coef);
+      const win = (value * coef).toFixed(2);
       const calc: BetRecord = {
         value,
         coef,
@@ -118,7 +118,7 @@ export const BetCalculator = () => {
     } else if (value <= 0) {
       return 0;
     } else {
-      return roundBalance(value * coef);
+      return (value * coef).toFixed(2);
     }
   }
 

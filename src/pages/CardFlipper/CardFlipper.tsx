@@ -9,7 +9,7 @@ import bmw8New from '../../images/cardFlipper/bmw8_new.jpg';
 
 import bmwSound from '../../assets/sounds/bmw-bong.mp3';
 import useSound from "use-sound";
-import { useAppContext } from "../../hooks/UseAppContext.tsx";
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
 
 
 export const CardFlipper = () => {

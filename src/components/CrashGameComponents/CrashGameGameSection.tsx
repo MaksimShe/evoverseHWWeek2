@@ -1,19 +1,18 @@
 import cn from "classnames";
+
 import rocket from '../../assets/rocket.png';
 import boom from '../../assets/boom.png';
 import bgRocket from "../../images/galaxy.gif";
-import clickSound from '../../assets/sounds/crash-click.mp3'
-import { type FC, useEffect, useState } from "react";
-import { Counter } from "../elements/Counter.tsx";
-import useSound from "use-sound";
-import { useAppContext } from "../../hooks/UseAppContext.tsx";
-import {roundBalance} from "../../helper/roundBalance.ts";
-import { GameStatus } from "../../enums/enums.ts";
-import {useCrashGameLogic} from "../../hooks/useCrashGameLogic.ts";
 
-export type CounterStatus = GameStatus;
-const minAutoStop = 1.25;
-const stepAutoStop = 0.25;
+
+import clickSound from '../../assets/sounds/crash-click.mp3'
+
+import {type FC, useEffect, useState} from "react";
+import {Counter} from "../elements/Counter.tsx";
+import useSound from "use-sound";
+import {useAppContext} from "../../hooks/UseAppContext.tsx";
+
+export type CounterStatus = 'disabled' | 'active' | 'lose' | 'win';
 
 type Props = {
   gameStatus: CounterStatus,
@@ -45,15 +44,15 @@ export const CrashGameGameSection: FC<Props> = (
   const [isFinished, setIsFinished] = useState(false);
   const [counterKey, setCounterKey] = useState(0);
   const [autoStopStatus, setAutoStopStatus] = useState(false)
-  const [autoStop, setAutoStop] = useState(minAutoStop);
+  const [autoStop, setAutoStop] = useState(1.25);
 
   const { hasSound } = useAppContext()
 
   const [playClick] = useSound(clickSound);
 
-  const addTenPercentFromBalance = () => {
+  const add10PercentFromBalance = () => {
     if (hasSound) playClick();
-    const increment = roundBalance(balance * 0.1);
+    const increment = +(balance * 0.1).toFixed(2);
     if (balance > bet + 5) {
       handleBet(bet + increment);
     } else {
@@ -68,26 +67,51 @@ export const CrashGameGameSection: FC<Props> = (
     }
   }
 
-  const { startCounter, finishCounter, changeAutoStopGame, changeAutoStop, betValidator } = useCrashGameLogic(
-    {
-      autoStopStatus,
-      minAutoStop,
-      autoStop,
-      stepAutoStop,
-      balance,
-      handleIsFinished: setIsFinished,
-      handleMaxMltp,
-      handleGameStatus,
-      handleCounterKey: setCounterKey,
-      handleAutoStopStatus: setAutoStopStatus,
-      handleBet,
-      handleAutoStop: setAutoStop,
-      playClick,
+  const finishCounter = () => {
+    setIsFinished(true);
+  }
+
+  const startCounter = () => {
+    const random = generateMultiplier();
+    handleMaxMltp(random);
+    handleGameStatus('active');
+    setIsFinished(false);
+    setCounterKey(prev => prev + 1);
+  }
+
+  const generateMultiplier = () => {
+    const r = Math.random();
+    const m = 1 / (1 - r);
+    return +(Math.min(m, 50)).toFixed(2);
+  }
+
+  const betValidator = (value: number) => {
+    if (hasSound) playClick();
+    if (value > (balance || 0)) {
+      handleBet(balance || 0);
+    } else if (value < 0) {
+      handleBet(0);
+    } else {
+      handleBet(value);
     }
-  );
+  }
+
+  const changeAutoStop = (val: number) => {
+    if (hasSound) playClick();
+    if (autoStop < 1.5 && val < 0) {
+      setAutoStop(1.25);
+    } else {
+      setAutoStop(prev => prev + val);
+    }
+  }
+
+  const changeAutoStopGame = () => {
+    if (hasSound) playClick();
+    setAutoStopStatus(!autoStopStatus);
+  }
 
   useEffect(() => {
-    if (gameStatus === GameStatus.lose && bet > balance) {
+    if (gameStatus === 'lose' && bet > balance) {
       handleBet(balance);
     }
   }, [balance, gameStatus]);
@@ -100,27 +124,27 @@ export const CrashGameGameSection: FC<Props> = (
       />
       <div
         className={cn("crash-game-rocket-wrapper",
-          {'fly' : gameStatus === GameStatus.active},
-          {'reset' : gameStatus === GameStatus.lose},
+          {'fly' : gameStatus === 'active'},
+          {'reset' : gameStatus === 'lose'},
         )}>
-        {gameStatus === GameStatus.lose ?
+        {gameStatus === 'lose' ?
           <img src={boom} className="crash-game-boom" alt="boom" />
           :
           <img src={rocket} className="crash-game-rocket" alt="rocket" />
         }
       </div>
 
-      {gameStatus !== GameStatus.active &&
+      {gameStatus !== 'active' &&
         <button
           onClick={startCounter}
-          disabled={gameStatus === GameStatus.lose|| bet <= 0}
+          disabled={gameStatus === 'lose'|| bet <= 0}
           className='crash-game-play-btn'
         >
           Start Game
         </button>
       }
 
-      {gameStatus === GameStatus.active &&
+      {gameStatus === 'active' &&
         <>
           <button
             onClick={finishCounter}
@@ -146,23 +170,23 @@ export const CrashGameGameSection: FC<Props> = (
           type="number"
           className="crash-game-bet-input"
           placeholder="Bet"
-          disabled={gameStatus === GameStatus.active}
-          value={bet ?? ''}
+          disabled={gameStatus === 'active'}
+          value={bet === 0 ? '' : bet}
           onChange={(e) => betValidator(+e.target.value)}
           max={balance || undefined}
         />
 
         <button
           className='crash-game-bet-btn'
-          disabled={gameStatus === GameStatus.active}
-          onClick={addTenPercentFromBalance}
+          disabled={gameStatus === 'active'}
+          onClick={() => add10PercentFromBalance()}
         >
           +10%
         </button>
         <button
           className='crash-game-bet-btn'
-          disabled={gameStatus === GameStatus.active}
-          onClick={addAll}
+          disabled={gameStatus === 'active'}
+          onClick={() => addAll()}
         >
           All
         </button>
@@ -170,9 +194,9 @@ export const CrashGameGameSection: FC<Props> = (
 
       <div className='crash-game-auto'>
         <button
-          disabled={!autoStopStatus || autoStop === minAutoStop}
+          disabled={!autoStopStatus || autoStop === 1.25}
           className="crash-game-auto-btn"
-          onClick={() => changeAutoStop(-stepAutoStop)}
+          onClick={() => changeAutoStop(-0.25)}
         >
           -
         </button>
@@ -182,12 +206,12 @@ export const CrashGameGameSection: FC<Props> = (
           }
         )}
         >
-          {roundBalance(autoStop)}
+          {autoStop.toFixed(2)}
         </p>
         <button
           disabled={!autoStopStatus}
           className="crash-game-auto-btn"
-          onClick={() => changeAutoStop(stepAutoStop)}
+          onClick={() => changeAutoStop(0.25)}
         >
           +
         </button>
@@ -198,7 +222,7 @@ export const CrashGameGameSection: FC<Props> = (
               'crash-game-auto-btn-disabled': !autoStopStatus,
             }
             )}
-          onClick={changeAutoStopGame}
+          onClick={() => changeAutoStopGame()}
         >
           {autoStopStatus ? 'On' : 'Off' }
         </button>

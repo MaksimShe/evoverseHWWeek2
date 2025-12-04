@@ -12,8 +12,29 @@ export function useAuth() {
   const [user, setUser] = useState<Account | null>(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const session = supabase.auth.getSession().then(({ data }) => {
+      if (data.session?.user) {
+        loadProfile(data.session.user.id);
+      }
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        loadProfile(session.user.id);
+      } else {
+        setUser(null);
+      }
+    });
+
+    setLoading(false);
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   const loadProfile = async (userId: string) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", userId)
@@ -50,7 +71,7 @@ export function useAuth() {
     []
   );
 
-  const handleLogin = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     setLoading(true);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -65,7 +86,7 @@ export function useAuth() {
     }
   }, []);
 
-  const handleLogout = useCallback(async () => {
+  const logout = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
   }, []);
@@ -90,29 +111,5 @@ export function useAuth() {
     if (data) setUser(data);
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const session = supabase.auth.getSession().then(({ data }) => {
-      if (data.session?.user) {
-        loadProfile(data.session.user.id);
-      }
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        loadProfile(session.user.id);
-      } else {
-        setUser(null);
-      }
-    });
-
-    setLoading(false);
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
-
-  return { user, loading, handleLogin, register, handleLogout, addMoney };
+  return { user, loading, login, register, logout, addMoney };
 }

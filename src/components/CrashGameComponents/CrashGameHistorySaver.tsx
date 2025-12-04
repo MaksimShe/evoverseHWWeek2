@@ -1,5 +1,7 @@
 import cn from "classnames";
-import {useSaveHistory} from "../../hooks/useSaveHistory.ts";
+import { useSaveHistory } from "../../hooks/useSaveHistory.ts";
+import {roundBalance} from "../../helper/roundBalance.ts";
+import { GameEndStatus } from "../../enums/enums.ts";
 
 const tableTitles = ['Bet', 'Multiplier', 'Time', 'Cashout', 'Multiplier grows to'];
 
@@ -7,7 +9,7 @@ export type History = {
   bet: number,
   multiplier: number,
   time: string,
-  status: 'won' | 'lost',
+  status: GameEndStatus
   cashOut: number,
   maxMltp: number,
 }
@@ -30,15 +32,15 @@ export const CrashGameHistorySaver = () => {
           prevBets.map((bet: History) => (
             <tr key={bet.time + '_' + bet.cashOut + '_' + bet.maxMltp}>
               <td className="crash-game-table-cash">{bet.bet}</td>
-              <td className="crash-game-table-mltp">{bet.multiplier.toFixed(2)}</td>
+              <td className="crash-game-table-mltp">{roundBalance(bet.multiplier)}</td>
               <td className="crash-game-table-date">{bet.time}</td>
               <td
                 className={cn(
-                  { 'crash-game-table-status-won': bet.status === 'won' },
-                  { 'crash-game-table-status-lost': bet.status === 'lost' },
+                  { 'crash-game-table-status-won': bet.status === GameEndStatus.won },
+                  { 'crash-game-table-status-lost': bet.status === GameEndStatus.lost },
                 )}
               >
-                {bet.cashOut.toFixed(2)}
+                {roundBalance(bet.cashOut)}
               </td>
               <td className="crash-game-table-max-mltp">{bet.maxMltp}</td>
             </tr>

@@ -1,5 +1,6 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Counter.css";
+import {roundBalance} from "../../helper/roundBalance.ts";
 
 interface CounterProps {
   finish?: boolean;
@@ -59,5 +60,5 @@ export const Counter = ({
     };
   }, [finish, handleWin, handleLose, value]);
 
-  return <div className="crash-game-counter">x{value.toFixed(2)}</div>;
+  return <div className="crash-game-counter">x{roundBalance(value)}</div>;
 };

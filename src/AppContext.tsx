@@ -1,5 +1,5 @@
-import {createContext} from "react";
-import type {Account} from "./hooks/useAuth.ts";
+import { createContext } from "react";
+import type { Account } from "./hooks/useAuth.ts";
 
 interface AppContextType {
   isDarkMode: boolean;

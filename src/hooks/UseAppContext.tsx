@@ -1,6 +1,6 @@
-import {useContext} from "react";
+import { useContext } from "react";
 
-import {AppContext} from "../AppContext.tsx";
+import { AppContext } from "../AppContext.tsx";
 
 export const useAppContext = () => {
   const ctx = useContext(AppContext);

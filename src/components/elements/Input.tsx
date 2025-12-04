@@ -21,7 +21,7 @@ export const Input: FC<Props> = ({
       type={type}
       className={className}
       placeholder={placeholder}
-      value={value === 0 ? '' : value}
+      value={value ?? ''}
       onChange={(e) => handleValue(+e.target.value)}
     />
   )

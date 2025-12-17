@@ -24,8 +24,8 @@ function App() {
           <Route path="/card-flipper" element={<CardFlipper />} />
           <Route path="/crash-game" element={<CrashGame />} />
           <Route path="/case-game" element={<CaseGame />} />
+          <Route path="/mines-game" element={<MinesGame />} />
         </Route>
-        <Route path="/mines-game" element={<MinesGame />} />
       </Routes>
     </>
   )

@@ -8,6 +8,7 @@ interface AppContextType {
   addMoney: (add: number) => void;
   toggleDarkMode: () => void;
   toggleSound: () => void;
+  playSound: (play: () => void) => void
 }
 
 export const AppContext = createContext<AppContextType | null>(null);

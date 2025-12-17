@@ -16,6 +16,14 @@ export const MainMenu = () => {
       name: 'Crash game',
     },
     {
+      linkTo: '/mines-game',
+      name: 'Mines Game',
+    },
+    {
+      linkTo: '/case-game',
+      name: 'Case Game',
+    },
+    {
       linkTo: '/card-flipper',
       name: 'Card Flipper',
     },
@@ -23,10 +31,6 @@ export const MainMenu = () => {
       linkTo: '/bet-calculator',
       name: 'Bet Calculator',
     },
-    {
-      linkTo: '/case-game',
-      name: 'Case Game',
-    }
   ];
 
   return (

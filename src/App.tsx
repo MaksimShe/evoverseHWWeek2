@@ -9,6 +9,7 @@ import { CrashGame } from "./pages/CrashGame/CrashGame.tsx";
 import { AccountLogin } from "./pages/AccountLogin/AccountLogin.tsx";
 import { ProtectedRoute } from "./ProtectedRoute.tsx";
 import { CaseGame } from "./pages/CaseGame/CaseGame.tsx";
+import {MinesGame} from "./pages/MinesGame/MinesGame.tsx";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/crash-game" element={<CrashGame />} />
           <Route path="/case-game" element={<CaseGame />} />
         </Route>
+        <Route path="/mines-game" element={<MinesGame />} />
       </Routes>
     </>
   )

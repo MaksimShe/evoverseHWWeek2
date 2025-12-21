@@ -1,31 +1,19 @@
-import {type ReactNode, useCallback, useState} from "react";
-import { AppContext } from "./AppContext.tsx";
-import { useAuth } from "./hooks/useAuth.ts";
+import { type ReactNode, useEffect } from 'react';
+import { useAuth } from './hooks/useAuth.ts';
+import { useAppStore } from './store/useAppStore.ts';
 
 interface AppProviderProps {
   children: ReactNode;
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [hasSound, setHasSound] = useState(false);
-  const {user, addMoney} = useAuth();
+  const { user } = useAuth();
+  const setUser = useAppStore((state) => state.setUser);
 
-  const playSound = useCallback(
-    (play: () => void) => {
-      if (!hasSound) return;
-      play();
-    },
-    [hasSound]
-  );
+  // Sync useAuth user data with Zustand store
+  useEffect(() => {
+    setUser(user);
+  }, [user, setUser]);
 
-  const toggleDarkMode = () => setIsDarkMode(prev => !prev);
-  const toggleSound = () => setHasSound(prev => !prev);
-  return (
-
-    <AppContext value={{ isDarkMode, hasSound, user, addMoney, toggleDarkMode, toggleSound, playSound }}>
-      {children}
-    </AppContext>
-
-  );
+  return <>{children}</>;
 };

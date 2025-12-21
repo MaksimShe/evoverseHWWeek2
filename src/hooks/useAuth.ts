@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../helper/supabaseClient";
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '../helper/supabaseClient';
 
 export interface Account {
   id: string;
@@ -13,42 +13,41 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   const loadProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", userId)
-      .single();
+    const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
 
-    if (data) setUser(data);
+    if (data) {
+      setUser(data);
+    }
   };
 
-  const register = useCallback(
-    async (email: string, password: string, username?: string) => {
-      setLoading(true);
-      try {
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
+  const register = useCallback(async (email: string, password: string, username?: string) => {
+    setLoading(true);
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
 
-        if (authError || !authData.user) throw authError;
-
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .insert([{ id: authData.user.id, email, username, balance: 1000 }])
-          .select()
-          .single();
-
-        if (profileError || !profileData) throw profileError;
-
-        setUser(profileData);
-        return profileData;
-      } finally {
-        setLoading(false);
+      if (authError || !authData.user) {
+        throw authError;
       }
-    },
-    []
-  );
+
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .insert([{ id: authData.user.id, email, username, balance: 1000 }])
+        .select()
+        .single();
+
+      if (profileError || !profileData) {
+        throw profileError;
+      }
+
+      setUser(profileData);
+      return profileData;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const handleLogin = useCallback(async (email: string, password: string) => {
     setLoading(true);
@@ -57,7 +56,9 @@ export function useAuth() {
         email,
         password,
       });
-      if (error || !data.user) throw error;
+      if (error || !data.user) {
+        throw error;
+      }
       await loadProfile(data.user.id);
       return data.user;
     } finally {
@@ -71,23 +72,27 @@ export function useAuth() {
   }, []);
 
   const addMoney = async (addMoney: number) => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     const newBalance = user.balance + addMoney;
 
     const { data, error } = await supabase
-      .from("profiles")
+      .from('profiles')
       .update({ balance: +newBalance.toFixed(2) })
-      .eq("id", user.id)
+      .eq('id', user.id)
       .select()
       .single();
 
     if (error) {
-      console.error("Balance update error:", error);
+      console.error('Balance update error:', error);
       return;
     }
 
-    if (data) setUser(data);
+    if (data) {
+      setUser(data);
+    }
   };
 
   useEffect(() => {

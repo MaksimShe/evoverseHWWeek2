@@ -1,7 +1,7 @@
-import cn from "classnames";
-import { coeffMinesCounter } from "../../helper/coeffMinesCounter";
-import { roundBalance } from "../../helper/roundBalance";
-import { MinesCounter} from "../../enums/enums.ts";
+import cn from 'classnames';
+import { coeffMinesCounter } from '../../helper/coeffMinesCounter';
+import { roundBalance } from '../../helper/roundBalance';
+import { MinesCounter } from '../../enums/enums.ts';
 
 enum BetQuickSelector {
   haveBMW = 10,
@@ -34,32 +34,30 @@ type Props = {
   userBalance: number;
   isPlaying: boolean;
 
-  onBetChange: (v: string) => void;
-  onQuickBet: (v: number) => void;
-  onMinesCountChange: (v: MinesCounter) => void;
+  onBetChange: (value: string) => void;
+  onQuickBet: (value: number) => void;
+  onMinesCountChange: (value: MinesCounter) => void;
   onStartGame: () => void;
   onCashout: () => void;
 };
 
-export const GameControllers = (
-  {
-    bet,
-    betError,
-    minesCount,
-    openedCounter,
-    safeTilesLeft,
-    userBalance,
-    isPlaying,
-    onBetChange,
-    onQuickBet,
-    onMinesCountChange,
-    onStartGame,
-    onCashout,
-  }: Props) => {
+export const GameControllers = ({
+  bet,
+  betError,
+  minesCount,
+  openedCounter,
+  safeTilesLeft,
+  userBalance,
+  isPlaying,
+  onBetChange,
+  onQuickBet,
+  onMinesCountChange,
+  onStartGame,
+  onCashout,
+}: Props) => {
   return (
     <aside className="mines-game-controls-main">
       <div className="mines-game-controls-main-container">
-
         <section className="mines-game-bet-controls">
           <h2>Bet amount:</h2>
 
@@ -70,20 +68,20 @@ export const GameControllers = (
             max={userBalance}
             disabled={isPlaying}
             onChange={(e) => onBetChange(e.target.value)}
-            className={cn("mines-game-bet-input", {
+            className={cn('mines-game-bet-input', {
               'mines-game-bet-input-error': betError,
             })}
           />
 
           <div className="mines-game-bet-btns">
-            {betsQuick.map(v => (
+            {betsQuick.map((value) => (
               <button
-                key={v}
+                key={value}
                 className="mines-game-bet-btn"
-                onClick={() => onQuickBet(v)}
+                onClick={() => onQuickBet(value)}
                 disabled={isPlaying}
               >
-                {v}$
+                {value}$
               </button>
             ))}
           </div>
@@ -93,23 +91,23 @@ export const GameControllers = (
           <h2>Mines: {minesCount}</h2>
 
           <div className="mines-game-bet-btns">
-            {riskBtns.map(v => (
+            {riskBtns.map((value) => (
               <button
-                key={v}
+                key={value}
                 disabled={isPlaying}
-                onClick={() => onMinesCountChange(v)}
-                className={cn("mines-game-bet-btn", {
-                  'mines-game-counter-selected': v === minesCount,
+                onClick={() => onMinesCountChange(value)}
+                className={cn('mines-game-bet-btn', {
+                  'mines-game-counter-selected': value === minesCount,
                 })}
               >
-                {v}
+                {value}
               </button>
             ))}
           </div>
         </section>
 
         <button
-          className={cn("mines-game-game-start", {
+          className={cn('mines-game-game-start', {
             'mines-game-game-cashout': isPlaying,
           })}
           disabled={isPlaying && openedCounter === 0}
@@ -117,9 +115,7 @@ export const GameControllers = (
         >
           {!isPlaying
             ? 'Start game!'
-            : `$ Cashout $${roundBalance(
-              bet * coeffMinesCounter(minesCount, openedCounter)
-            )} $`}
+            : `$ Cashout $${roundBalance(bet * coeffMinesCounter(minesCount, openedCounter))} $`}
         </button>
       </div>
 
@@ -133,21 +129,12 @@ export const GameControllers = (
 
         <div className="mines-game-current-info-container">
           <span>Current value:</span>
-          <span>
-            $
-            {roundBalance(
-              bet * coeffMinesCounter(minesCount, openedCounter)
-            )}
-          </span>
+          <span>${roundBalance(bet * coeffMinesCounter(minesCount, openedCounter))}</span>
         </div>
 
         <div className="mines-game-current-info-container">
           <span>Next tile:</span>
-          <span>
-            x{roundBalance(
-            coeffMinesCounter(minesCount, openedCounter + 1)
-          )}
-          </span>
+          <span>x{roundBalance(coeffMinesCounter(minesCount, openedCounter + 1))}</span>
         </div>
 
         <div className="mines-game-current-info-container">
@@ -159,10 +146,12 @@ export const GameControllers = (
       <section className="mines-game-tips">
         <h2>💡 Tips</h2>
         <p>
-          • More mines = higher multiplier<br />
-          • Cash out anytime<br />
-          • Each safe tile increases payout<br />
-          • One mine ends the game
+          • More mines = higher multiplier
+          <br />
+          • Cash out anytime
+          <br />
+          • Each safe tile increases payout
+          <br />• One mine ends the game
         </p>
       </section>
     </aside>

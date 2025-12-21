@@ -1,6 +1,6 @@
-import { GameStatus } from "../enums/enums";
-import { roundBalance } from "../helper/roundBalance";
-import { useAppContext } from "./UseAppContext";
+import { GameStatus } from '../enums/enums';
+import { roundBalance } from '../helper/roundBalance';
+import { useAppStore } from '../store/useAppStore';
 
 type Props = {
   autoStopStatus: boolean;
@@ -27,24 +27,23 @@ type UseCrashGameLogicReturn = {
   changeAutoStopGame: () => void;
 };
 
-export const useCrashGameLogic = (
-  {
-    autoStopStatus,
-    minAutoStop,
-    autoStop,
-    stepAutoStop,
-    balance,
+export const useCrashGameLogic = ({
+  autoStopStatus,
+  minAutoStop,
+  autoStop,
+  stepAutoStop,
+  balance,
 
-    handleIsFinished,
-    handleMaxMltp,
-    handleGameStatus,
-    handleCounterKey,
-    handleAutoStopStatus,
-    handleBet,
-    handleAutoStop,
-    playClick,
-  }: Props): UseCrashGameLogicReturn => {
-  const { hasSound } = useAppContext();
+  handleIsFinished,
+  handleMaxMltp,
+  handleGameStatus,
+  handleCounterKey,
+  handleAutoStopStatus,
+  handleBet,
+  handleAutoStop,
+  playClick,
+}: Props): UseCrashGameLogicReturn => {
+  const hasSound = useAppStore((state) => state.hasSound);
 
   const finishCounter = () => {
     handleIsFinished(true);
@@ -65,7 +64,9 @@ export const useCrashGameLogic = (
   };
 
   const betValidator = (value: number) => {
-    if (hasSound) playClick();
+    if (hasSound) {
+      playClick();
+    }
     if (value > (balance || 0)) {
       handleBet(balance || 0);
     } else if (value < 0) {
@@ -76,7 +77,9 @@ export const useCrashGameLogic = (
   };
 
   const changeAutoStop = (val: number) => {
-    if (hasSound) playClick();
+    if (hasSound) {
+      playClick();
+    }
     if (autoStop < minAutoStop + stepAutoStop && val < 0) {
       handleAutoStop(minAutoStop);
     } else {
@@ -85,7 +88,9 @@ export const useCrashGameLogic = (
   };
 
   const changeAutoStopGame = () => {
-    if (hasSound) playClick();
+    if (hasSound) {
+      playClick();
+    }
     handleAutoStopStatus(!autoStopStatus);
   };
 

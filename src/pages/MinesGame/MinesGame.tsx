@@ -1,19 +1,17 @@
-import './MinesGame.css'
-import { randomizeMinesTable } from "../../helper/randomizeMinesTable.ts";
-import { useState } from "react";
-import { coeffMinesCounter } from "../../helper/coeffMinesCounter.ts";
-import { useAppContext } from "../../hooks/UseAppContext.tsx";
-import { GameTable } from "../../components/MinesGameComponents/GameTable.tsx";
-import { GameControllers } from "../../components/MinesGameComponents/GameControls.tsx";
-import { GameStatus, MinesCounter } from "../../enums/enums.ts";
-import clickSound from "../../assets/sounds/clickMenu.mp3"
-import cashSound from "../../assets/sounds/cashAdd.mp3"
-import loseSound from "../../assets/sounds/bmw-bong.mp3"
-import tileClickSound from "../../assets/sounds/clearHistory.mp3"
-import useSound from "use-sound";
-
-const MAX_BET = 1000;
-const MIN_BET = 1;
+import './MinesGame.css';
+import { randomizeMinesTable } from '../../helper/randomizeMinesTable.ts';
+import { useState } from 'react';
+import { coeffMinesCounter } from '../../helper/coeffMinesCounter.ts';
+import { useAppStore } from '../../store/useAppStore.ts';
+import { GameTable } from '../../components/MinesGameComponents/GameTable.tsx';
+import { GameControllers } from '../../components/MinesGameComponents/GameControls.tsx';
+import { GameStatus, MinesCounter } from '../../enums/enums.ts';
+import clickSound from '../../assets/sounds/clickMenu.mp3';
+import cashSound from '../../assets/sounds/cashAdd.mp3';
+import loseSound from '../../assets/sounds/bmw-bong.mp3';
+import tileClickSound from '../../assets/sounds/clearHistory.mp3';
+import useSound from 'use-sound';
+import { GAME_CONFIG } from '../../constants/gameConfig.ts';
 
 export const MinesGame = () => {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.disabled);
@@ -24,14 +22,14 @@ export const MinesGame = () => {
   const [bet, setBet] = useState<number>(10);
   const [betError, setBetError] = useState<boolean>(false);
 
-  console.log(gameStatus);
-
   const [playClickSound] = useSound(clickSound);
   const [playCashSound] = useSound(cashSound);
   const [playTileSound] = useSound(tileClickSound);
   const [playLoseSound] = useSound(loseSound);
 
-  const { addMoney, user, playSound } = useAppContext();
+  const addMoney = useAppStore((state) => state.addMoney);
+  const user = useAppStore((state) => state.user);
+  const playSound = useAppStore((state) => state.playSound);
 
   const isPlaying = gameStatus === GameStatus.active;
   const safeTilesCount = 25 - minesCount;
@@ -40,15 +38,15 @@ export const MinesGame = () => {
     playSound(playClickSound);
 
     setMinesCount(num);
-  }
+  };
 
   const increaseOpenedCounter = () => {
-    setOpenedCounter(prev => prev + 1);
-    playSound(playTileSound)
-  }
+    setOpenedCounter((prev) => prev + 1);
+    playSound(playTileSound);
+  };
 
   const gameStarted = () => {
-    if (bet < MIN_BET || bet > (user?.balance || 0)) {
+    if (bet < GAME_CONFIG.MIN_BET || bet > (user?.balance || 0)) {
       setBetError(true);
       return;
     }
@@ -57,11 +55,11 @@ export const MinesGame = () => {
     setBetError(false);
     const newTable = randomizeMinesTable(minesCount);
     setGameTable(newTable);
-    setOpenedTiles(newTable.map(row => row.map(() => false)));
+    setOpenedTiles(newTable.map((row) => row.map(() => false)));
     setGameStatus(GameStatus.active);
     setOpenedCounter(0);
     addMoney(-bet);
-  }
+  };
 
   const handleBetChange = (value: string) => {
     setBetError(false);
@@ -73,30 +71,32 @@ export const MinesGame = () => {
       return;
     }
 
-    const maxBet = Math.min(MAX_BET, user?.balance || MAX_BET);
+    const maxBet = Math.min(GAME_CONFIG.MAX_BET, user?.balance || GAME_CONFIG.MAX_BET);
 
     if (!isNaN(numValue) && numValue >= 0) {
       setBet(numValue > maxBet ? maxBet : numValue);
     }
-  }
+  };
 
   const openTile = (rowIndex: number, colIndex: number) => {
-    if (!isPlaying) return;
-    if (openedTiles[rowIndex]?.[colIndex]) return;
+    if (!isPlaying) {
+      return;
+    }
+    if (openedTiles[rowIndex]?.[colIndex]) {
+      return;
+    }
 
     const tile = gameTable[rowIndex][colIndex];
 
     const newOpenedTiles = openedTiles.map((row, rIdx) =>
-      row.map((cell, cIdx) =>
-        rIdx === rowIndex && cIdx === colIndex ? true : cell
-      )
+      row.map((cell, cIdx) => (rIdx === rowIndex && cIdx === colIndex ? true : cell))
     );
     setOpenedTiles(newOpenedTiles);
 
     if (!tile) {
       setGameStatus(GameStatus.lose);
       playSound(playLoseSound);
-      setOpenedTiles(gameTable.map(row => row.map(() => true)));
+      setOpenedTiles(gameTable.map((row) => row.map(() => true)));
       return;
     }
 
@@ -106,29 +106,31 @@ export const MinesGame = () => {
     if (newOpenedCount === safeTilesCount) {
       const winAmount = bet * coeffMinesCounter(minesCount, newOpenedCount);
       addMoney(winAmount);
-      setOpenedTiles(gameTable.map(row => row.map(() => true)));
+      setOpenedTiles(gameTable.map((row) => row.map(() => true)));
     }
-  }
+  };
 
   const handleQuickBet = (amount: number) => {
     playSound(playClickSound);
     setBetError(false);
     setBet(() => {
       const newBet = amount;
-      const maxBet = Math.min(MAX_BET, user?.balance || MAX_BET);
+      const maxBet = Math.min(GAME_CONFIG.MAX_BET, user?.balance || GAME_CONFIG.MAX_BET);
       return newBet > maxBet ? maxBet : newBet;
     });
-  }
+  };
 
   const handleCashout = () => {
-    if (openedCounter === 0) return;
+    if (openedCounter === 0) {
+      return;
+    }
 
     const winAmount = bet * coeffMinesCounter(minesCount, openedCounter);
     playSound(playCashSound);
     addMoney(winAmount);
     setGameStatus(GameStatus.win);
-    setOpenedTiles(gameTable.map(row => row.map(() => true)));
-  }
+    setOpenedTiles(gameTable.map((row) => row.map(() => true)));
+  };
 
   const handleNewGame = () => {
     setGameStatus(GameStatus.disabled);
@@ -136,14 +138,13 @@ export const MinesGame = () => {
     setOpenedTiles([[]]);
     setOpenedCounter(0);
     setBetError(false);
-  }
+  };
 
   const safeTilesLeft = safeTilesCount - openedCounter;
 
   return (
     <main className="mines-game-wrapper">
       <div className="mines-game-main">
-
         <GameTable
           gameTable={gameTable}
           openedTiles={openedTiles}
@@ -170,8 +171,7 @@ export const MinesGame = () => {
           onStartGame={gameStarted}
           onCashout={handleCashout}
         />
-
       </div>
     </main>
-  )
-}
+  );
+};

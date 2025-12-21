@@ -1,7 +1,4 @@
-export function coeffMinesCounter (
-  minesCount: number,
-  openedCount: number
-): number {
+export function coeffMinesCounter(minesCount: number, openedCount: number): number {
   const totalCells = 25;
   const safeCells = totalCells - minesCount;
 
@@ -14,7 +11,7 @@ export function coeffMinesCounter (
   }
 
   if (openedCount === 0) {
-    return 1.00;
+    return 1.0;
   }
 
   let coefficient = 1.0;

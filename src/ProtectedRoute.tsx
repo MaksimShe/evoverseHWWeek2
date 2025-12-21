@@ -1,10 +1,12 @@
-import { Outlet, Navigate } from "react-router-dom";
-import { useAppContext } from "./hooks/UseAppContext.tsx";
+import { Outlet, Navigate } from 'react-router-dom';
+import { useAppStore } from './store/useAppStore.ts';
 
 export const ProtectedRoute = () => {
-  const { user } = useAppContext();
+  const user = useAppStore((state) => state.user);
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return <Outlet />;
 };

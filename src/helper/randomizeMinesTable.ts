@@ -1,4 +1,4 @@
-export const randomizeMinesTable = (counter: number) =>  {
+export const randomizeMinesTable = (counter: number) => {
   const totalCells = 25;
   const falseCount = Math.min(Math.max(0, counter), totalCells);
 
@@ -18,4 +18,4 @@ export const randomizeMinesTable = (counter: number) =>  {
   }
 
   return grid;
-}
+};

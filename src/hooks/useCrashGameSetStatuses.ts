@@ -5,7 +5,7 @@ import { useRef, useEffect } from 'react';
 import useSound from 'use-sound';
 import winSound from '../assets/sounds/crash-win.mp3';
 import loseSound from '../assets/sounds/crash-lose.mp3';
-import { GAME_CONFIG } from '../constants/gameConfig.ts';
+import { MINES_GAME_CONFIG } from '../constants/gameConfig.ts';
 
 type Props = {
   bet: number;
@@ -46,7 +46,7 @@ export const useCrashGameSetStatuses = ({ bet, maxMltp, handleGameStatus }: Prop
     }
     timeoutRef.current = setTimeout(() => {
       handleGameStatus(GameStatus.disabled);
-    }, GAME_CONFIG.CRASH.RESET_DELAY_MS);
+    }, MINES_GAME_CONFIG.CRASH.RESET_DELAY_MS);
   };
 
   // Cleanup timeout on unmount to prevent memory leak

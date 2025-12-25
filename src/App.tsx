@@ -10,6 +10,7 @@ import { AccountLogin } from './pages/AccountLogin/AccountLogin.tsx';
 import { ProtectedRoute } from './ProtectedRoute.tsx';
 import { CaseGame } from './pages/CaseGame/CaseGame.tsx';
 import { MinesGame } from './pages/MinesGame/MinesGame.tsx';
+import { PlinkoGame } from './pages/PlinkoGame/PlinkoGame.tsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/crash-game" element={<CrashGame />} />
           <Route path="/case-game" element={<CaseGame />} />
           <Route path="/mines-game" element={<MinesGame />} />
+          <Route path="/plinko-game" element={<PlinkoGame />} />
         </Route>
       </Routes>
     </>

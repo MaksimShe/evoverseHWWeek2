@@ -16,6 +16,10 @@ export const MainMenu = () => {
       name: 'Crash game',
     },
     {
+      linkTo: '/plinko-game',
+      name: 'Plinko Game',
+    },
+    {
       linkTo: '/mines-game',
       name: 'Mines Game',
     },

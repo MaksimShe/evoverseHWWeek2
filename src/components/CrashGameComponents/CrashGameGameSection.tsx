@@ -10,7 +10,7 @@ import { useAppStore } from '../../store/useAppStore.ts';
 import { roundBalance } from '../../helper/roundBalance.ts';
 import { GameStatus } from '../../enums/enums.ts';
 import { useCrashGameLogic } from '../../hooks/useCrashGameLogic.ts';
-import { GAME_CONFIG } from '../../constants/gameConfig.ts';
+import { MINES_GAME_CONFIG } from '../../constants/gameConfig.ts';
 
 export type CounterStatus = GameStatus;
 
@@ -42,7 +42,7 @@ export const CrashGameGameSection: FC<Props> = ({
   const [isFinished, setIsFinished] = useState(false);
   const [counterKey, setCounterKey] = useState(0);
   const [autoStopStatus, setAutoStopStatus] = useState(false);
-  const [autoStop, setAutoStop] = useState(GAME_CONFIG.CRASH.MIN_AUTO_STOP);
+  const [autoStop, setAutoStop] = useState(MINES_GAME_CONFIG.CRASH.MIN_AUTO_STOP);
 
   const hasSound = useAppStore((state) => state.hasSound);
 
@@ -51,9 +51,9 @@ export const CrashGameGameSection: FC<Props> = ({
   const { startCounter, finishCounter, changeAutoStopGame, changeAutoStop, betValidator } =
     useCrashGameLogic({
       autoStopStatus,
-      minAutoStop: GAME_CONFIG.CRASH.MIN_AUTO_STOP,
+      minAutoStop: MINES_GAME_CONFIG.CRASH.MIN_AUTO_STOP,
       autoStop,
-      stepAutoStop: GAME_CONFIG.CRASH.STEP_AUTO_STOP,
+      stepAutoStop: MINES_GAME_CONFIG.CRASH.STEP_AUTO_STOP,
       balance,
       handleIsFinished: setIsFinished,
       handleMaxMltp,
@@ -166,9 +166,9 @@ export const CrashGameGameSection: FC<Props> = ({
 
       <div className="crash-game-auto">
         <button
-          disabled={!autoStopStatus || autoStop === GAME_CONFIG.CRASH.MIN_AUTO_STOP}
+          disabled={!autoStopStatus || autoStop === MINES_GAME_CONFIG.CRASH.MIN_AUTO_STOP}
           className="crash-game-auto-btn"
-          onClick={() => changeAutoStop(-GAME_CONFIG.CRASH.STEP_AUTO_STOP)}
+          onClick={() => changeAutoStop(-MINES_GAME_CONFIG.CRASH.STEP_AUTO_STOP)}
         >
           -
         </button>
@@ -182,7 +182,7 @@ export const CrashGameGameSection: FC<Props> = ({
         <button
           disabled={!autoStopStatus}
           className="crash-game-auto-btn"
-          onClick={() => changeAutoStop(GAME_CONFIG.CRASH.STEP_AUTO_STOP)}
+          onClick={() => changeAutoStop(MINES_GAME_CONFIG.CRASH.STEP_AUTO_STOP)}
         >
           +
         </button>

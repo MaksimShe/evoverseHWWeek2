@@ -11,7 +11,7 @@ import cashSound from '../../assets/sounds/cashAdd.mp3';
 import loseSound from '../../assets/sounds/bmw-bong.mp3';
 import tileClickSound from '../../assets/sounds/clearHistory.mp3';
 import useSound from 'use-sound';
-import { GAME_CONFIG } from '../../constants/gameConfig.ts';
+import { MINES_GAME_CONFIG } from '../../constants/gameConfig.ts';
 
 export const MinesGame = () => {
   const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.disabled);
@@ -46,7 +46,7 @@ export const MinesGame = () => {
   };
 
   const gameStarted = () => {
-    if (bet < GAME_CONFIG.MIN_BET || bet > (user?.balance || 0)) {
+    if (bet < MINES_GAME_CONFIG.MIN_BET || bet > (user?.balance || 0)) {
       setBetError(true);
       return;
     }
@@ -71,7 +71,7 @@ export const MinesGame = () => {
       return;
     }
 
-    const maxBet = Math.min(GAME_CONFIG.MAX_BET, user?.balance || GAME_CONFIG.MAX_BET);
+    const maxBet = Math.min(MINES_GAME_CONFIG.MAX_BET, user?.balance || MINES_GAME_CONFIG.MAX_BET);
 
     if (!isNaN(numValue) && numValue >= 0) {
       setBet(numValue > maxBet ? maxBet : numValue);
@@ -115,7 +115,10 @@ export const MinesGame = () => {
     setBetError(false);
     setBet(() => {
       const newBet = amount;
-      const maxBet = Math.min(GAME_CONFIG.MAX_BET, user?.balance || GAME_CONFIG.MAX_BET);
+      const maxBet = Math.min(
+        MINES_GAME_CONFIG.MAX_BET,
+        user?.balance || MINES_GAME_CONFIG.MAX_BET
+      );
       return newBet > maxBet ? maxBet : newBet;
     });
   };

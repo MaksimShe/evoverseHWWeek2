@@ -109,7 +109,7 @@ export const PlinkoGame: React.FC = () => {
 
   const handleBallComplete = useCallback(
     (winAmount: number, finalSlot: number) => {
-      setTotalWinnings((prev) => roundBalance(prev + winAmount));
+      setTotalWinnings(roundBalance(winAmount));
       addMoney(winAmount);
       playSound(playCashSound);
       highlightSlot(finalSlot);

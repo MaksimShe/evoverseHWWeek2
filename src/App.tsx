@@ -11,11 +11,15 @@ import { ProtectedRoute } from './ProtectedRoute.tsx';
 import { CaseGame } from './pages/CaseGame/CaseGame.tsx';
 import { MinesGame } from './pages/MinesGame/MinesGame.tsx';
 import { PlinkoGame } from './pages/PlinkoGame/PlinkoGame.tsx';
+import { Snowfall } from 'react-snowfall';
+import { useAppStore } from './store/useAppStore.ts';
 
 function App() {
+  const { isDarkMode } = useAppStore();
   return (
     <>
       <Header />
+      {!isDarkMode && <Snowfall />}
       <Routes>
         <Route path="/login" element={<AccountLogin />} />
         <Route element={<ProtectedRoute />}>

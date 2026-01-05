@@ -1,0 +1,30 @@
+export const MINES_GAME_CONFIG = {
+  MAX_BET: 1000,
+  MIN_BET: 1,
+  INITIAL_BALANCE: 1000,
+  MINES: {
+    GRID_SIZE: 25,
+  },
+  CRASH: {
+    MIN_AUTO_STOP: 1.25,
+    STEP_AUTO_STOP: 0.25,
+    RESET_DELAY_MS: 1300,
+  },
+} as const;
+
+export const PLINKO_GAME_CONFIG = {
+  GRAVITY: 0.5,
+  BOUNCE_DAMPING: 0.57,
+  PEG_RADIUS: 6,
+  BALL_RADIUS: 8,
+  FRICTION: 0.95,
+  SPAWNER_PEG_RADIUS: 10,
+  SPAWNER_GAP: 60,
+  COUNTER_START_PEGS: 3,
+  QUICK_BETS: [10, 50, 100, 500],
+  MAX_BALLS: 20,
+  ROWS_COUNTER: {
+    MIN: 3,
+    MAX: 8,
+  },
+} as const;

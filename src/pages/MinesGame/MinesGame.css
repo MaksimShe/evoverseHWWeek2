@@ -1,0 +1,303 @@
+.mines-game-wrapper {
+  background-image: url('../../images/mines-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.mines-game-table-cell {
+  background-color: rgba(5, 99, 223, 0.42);
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+}
+
+.mines-game-table-cell:hover {
+  background-color: rgba(18, 108, 223, 0.55);
+  cursor: pointer;
+  transform: scale(105%);
+  transition-duration: 0.2s;
+}
+
+.mines-game-cell-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mines-game-cell-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  display: block;
+}
+
+.mines-game-main {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  margin-top: 80px;
+}
+
+.mines-game-table {
+  width: 362px;
+  height: 362px;
+  table-layout: fixed;
+  border-spacing: 6px;
+  padding: 10px;
+  background-color: rgba(63, 76, 99, 0.47);
+  border-radius: 8px;
+  border: 3px solid rgb(4, 3, 3);
+}
+
+.mines-game-controls-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.mines-game-bet-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mines-game-bet-controls h2 {
+  margin: 8px 0;
+}
+
+.mines-game-bet-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  width: 100%;
+  margin-block: 6px;
+}
+
+.mines-game-game-start {
+  width: 100%;
+  margin-bottom: 12px;
+  background-color: rgba(21, 174, 36, 0.8);
+}
+
+.mines-game-game-cashout {
+  background-image: linear-gradient(
+    to right,
+    #fb923c,
+    /* from-orange-400 */ #f97316,
+    /* via-orange-500 */ #ea580c /* to-orange-600 */
+  );
+}
+
+.mines-game-bet-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Jersey 10', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 8px;
+  border: none;
+  padding: 6px;
+  margin-bottom: 10px;
+  background-color: rgba(4, 3, 3, 0.5);
+}
+
+.mines-game-chances-control h2 {
+  margin: 12px 0 6px 0;
+}
+
+.mines-game-bet-btn {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mines-game-counter-selected {
+  background-color: rgba(49, 93, 152, 0.42);
+}
+
+.mines-game-chance-btn {
+  box-sizing: border-box;
+  height: 40px;
+  width: 50px;
+}
+
+.mines-game-cell-opened-safe {
+  background-color: rgba(0, 218, 11, 0.42);
+}
+
+.mines-game-cell-opened-mine {
+  background-color: rgba(218, 0, 11, 0.42);
+}
+
+.mines-game-cell-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.mines-game-cell-disabled:hover {
+  transform: none;
+  background-color: inherit;
+}
+.mines-game-status {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.mines-game-status-win {
+  background-color: rgba(0, 218, 11, 0.2);
+  border: 2px solid rgba(0, 218, 11, 0.6);
+}
+
+.mines-game-status-lose {
+  background-color: rgba(218, 0, 11, 0.2);
+  border: 2px solid rgba(218, 0, 11, 0.6);
+}
+
+.mines-game-status h2 {
+  margin: 0;
+  color: #0e0e0e;
+}
+
+.mines-game-bet-input-error {
+  border: 2px solid rgba(218, 0, 11, 0.8);
+  background-color: rgba(218, 0, 11, 0.1);
+}
+
+.mines-game-new-game-btn {
+  margin-top: 15px;
+  padding: 10px 30px;
+  font-size: 18px;
+  font-family: 'Jersey 10', sans-serif;
+  background-color: rgba(5, 99, 223, 0.6);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mines-game-new-game-btn:hover {
+  background-color: rgba(5, 99, 223, 0.8);
+  transform: scale(1.05);
+}
+
+.mines-game-tips {
+  padding: 0 20px;
+  background-color: rgba(0, 25, 96, 0.55);
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.mines-game-tips p {
+  margin: 0 0 5px 0;
+}
+
+.mines-game-tips h2 {
+  margin: 8px 0;
+  color: #8ec5ff;
+}
+
+.mines-game-current-game {
+  padding: 0 20px;
+  background-color: rgba(59, 112, 108, 0.55);
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.mines-game-current-game h2 {
+  margin: 8px 0;
+}
+
+.mines-game-current-info-container {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.mines-game-current-info-container:last-child {
+  margin-top: 10px;
+}
+
+.mines-game-current-info-container:nth-child(3n) span:last-child {
+  color: rgba(208, 67, 255, 0.6);
+}
+
+.mines-game-current-info-container:last-child span:last-child {
+  color: rgba(1, 90, 255, 0.6);
+}
+
+.mines-game-current-info-container span:first-child {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.mines-game-current-info-container span:last-child {
+  color: rgba(41, 179, 3, 0.83);
+  font-size: 22px;
+}
+
+.mines-game-controls-main-container {
+  padding: 0 20px;
+  background-color: rgba(59, 112, 60, 0.55);
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .mines-game-main {
+    margin-top: 90px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mines-game-table {
+    width: 100%;
+    max-width: 362px;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .mines-game-controls-main {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .mines-game-tips,
+  .mines-game-current-game,
+  .mines-game-controls-main-container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mines-game-table-cell {
+    width: 75px;
+    height: 75px;
+  }
+
+  .mines-game-cell-img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .mines-game-table {
+    width: 453px;
+    height: 453px;
+    border-spacing: 8px;
+  }
+}

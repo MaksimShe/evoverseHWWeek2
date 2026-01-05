@@ -1,24 +1,24 @@
 import './CaseGame.css';
-import {useEffect, useRef, useState} from "react";
-import cn from "classnames";
-import {motion, useAnimation} from "framer-motion";
-import {useAppContext} from "../../hooks/UseAppContext.tsx";
-import clickSound from "../../assets/sounds/betCalcClick.mp3"
-import useSound from "use-sound";
+import { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
+import { motion, useAnimation } from 'framer-motion';
+import { useAppStore } from '../../store/useAppStore.ts';
+import clickSound from '../../assets/sounds/betCalcClick.mp3';
+import useSound from 'use-sound';
 
 type CaseType = {
-  name: string,
-  icon: string,
-  price: number,
-  contain: string[][]
-  containText: string[][]
-}
+  name: string;
+  icon: string;
+  price: number;
+  contain: string[][];
+  containText: string[][];
+};
 
 type CaseItem = {
   emoji: string;
   rarity: string;
   text: string;
-}
+};
 
 const CASES_TYPE: CaseType[] = [
   {
@@ -26,12 +26,12 @@ const CASES_TYPE: CaseType[] = [
     icon: '🚀',
     price: 75,
     contain: [
-      ['⭐','🌙','☄','🛸','🌍'],
-      ['🪐','🌌','🚀'],
-      ['👽','🌟'],
-      ['💫','🌠'],
+      ['⭐', '🌙', '☄', '🛸', '🌍'],
+      ['🪐', '🌌', '🚀'],
+      ['👽', '🌟'],
+      ['💫', '🌠'],
       ['🔭'],
-      ['🌞']
+      ['🌞'],
     ],
     containText: [
       ['Star', 'Moon', 'Comet', 'UFO', 'Earth'],
@@ -39,20 +39,20 @@ const CASES_TYPE: CaseType[] = [
       ['Alien', 'Shining Star'],
       ['Sparkle', 'Shooting Star'],
       ['Telescope'],
-      ['Sun']
-    ]
+      ['Sun'],
+    ],
   },
   {
     name: 'Sport Case',
     icon: '⚽',
     price: 60,
     contain: [
-      ['⚽','🏀','🏈','⚾','🎾'],
-      ['🏐','🏓','🥊'],
-      ['🥇','🏆'],
-      ['🎖','👑'],
+      ['⚽', '🏀', '🏈', '⚾', '🎾'],
+      ['🏐', '🏓', '🥊'],
+      ['🥇', '🏆'],
+      ['🎖', '👑'],
       ['🏅'],
-      ['⚡']
+      ['⚡'],
     ],
     containText: [
       ['Soccer', 'Basketball', 'Football', 'Baseball', 'Tennis'],
@@ -60,20 +60,20 @@ const CASES_TYPE: CaseType[] = [
       ['Gold Medal', 'Trophy'],
       ['Medal', 'Crown'],
       ['Medallion'],
-      ['Lightning']
-    ]
+      ['Lightning'],
+    ],
   },
   {
     name: 'Animal Case',
     icon: '🦁',
     price: 50,
     contain: [
-      ['🐭','🐸','🐰','🐔','🐷'],
-      ['🐼','🦊','🦝'],
-      ['🦁','🐯'],
-      ['🦄','🐉'],
+      ['🐭', '🐸', '🐰', '🐔', '🐷'],
+      ['🐼', '🦊', '🦝'],
+      ['🦁', '🐯'],
+      ['🦄', '🐉'],
       ['🦖'],
-      ['👑']
+      ['👑'],
     ],
     containText: [
       ['Mouse', 'Frog', 'Rabbit', 'Chicken', 'Pig'],
@@ -81,20 +81,20 @@ const CASES_TYPE: CaseType[] = [
       ['Lion', 'Tiger'],
       ['Unicorn', 'Dragon'],
       ['Dinosaur'],
-      ['Crown']
-    ]
+      ['Crown'],
+    ],
   },
   {
     name: 'Food Case',
     icon: '🍕',
     price: 40,
     contain: [
-      ['🍎','🍌','🍞','🥕','🥒'],
-      ['🍕','🍔','🌮'],
-      ['🍰','🍣'],
-      ['🦞','🍾'],
+      ['🍎', '🍌', '🍞', '🥕', '🥒'],
+      ['🍕', '🍔', '🌮'],
+      ['🍰', '🍣'],
+      ['🦞', '🍾'],
       ['🎂'],
-      ['💎']
+      ['💎'],
     ],
     containText: [
       ['Apple', 'Banana', 'Bread', 'Carrot', 'Cucumber'],
@@ -102,9 +102,9 @@ const CASES_TYPE: CaseType[] = [
       ['Cake', 'Sushi'],
       ['Lobster', 'Champagne'],
       ['Birthday Cake'],
-      ['Diamond']
-    ]
-  }
+      ['Diamond'],
+    ],
+  },
 ];
 
 const CHANGES_RARITY = [
@@ -123,16 +123,16 @@ const CHANGES_PATTERN = {
   epic: 5,
   legendary: 2.5,
   gold: 0.5,
-}
+};
 
 const PRICE_RARITY = {
-  '0' : 15,
-  '1' : 40,
-  '2' : 80,
-  '3' : 150,
-  '4' : 250,
-  '5' : 800,
-}
+  '0': 15,
+  '1': 40,
+  '2': 80,
+  '3': 150,
+  '4': 250,
+  '5': 800,
+};
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -150,19 +150,25 @@ export const CaseGame = () => {
   const centerLineRef = useRef<HTMLDivElement | null>(null);
   const [playClick] = useSound(clickSound);
 
-  const { addMoney, user, hasSound } = useAppContext()
+  const addMoney = useAppStore((state) => state.addMoney);
+  const user = useAppStore((state) => state.user);
+  const playSound = useAppStore((state) => state.playSound);
 
   const findCenteredItem = (): CaseItem | null => {
-    if (!trackRef.current || !centerLineRef.current) return null;
+    if (!trackRef.current || !centerLineRef.current) {
+      return null;
+    }
 
     const centerRect = centerLineRef.current.getBoundingClientRect();
-    const cards = Array.from(trackRef.current.querySelectorAll('.case-game-roulette-card')) as HTMLElement[];
+    const cards = Array.from(
+      trackRef.current.querySelectorAll('.case-game-roulette-card')
+    ) as HTMLElement[];
     const centerX = centerRect.x + centerRect.width / 2;
 
     let closestCard: HTMLElement | null = null;
     let closestDistance = Infinity;
 
-    cards.forEach(card => {
+    cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       const cardCenter = rect.left + rect.width / 2;
       const distance = Math.abs(centerX - cardCenter);
@@ -172,7 +178,9 @@ export const CaseGame = () => {
       }
     });
 
-    if (!closestCard) return null;
+    if (!closestCard) {
+      return null;
+    }
 
     const index = Number(closestCard.dataset.index);
     return animationItems[index] || null;
@@ -186,7 +194,7 @@ export const CaseGame = () => {
       for (let i = 0; i < count; i++) {
         const emoji = caseType.contain[index][i % caseType.contain[index].length];
         const text = caseType.containText[index][i % caseType.containText[index].length];
-        result.push({ emoji, rarity: index.toString(), text});
+        result.push({ emoji, rarity: index.toString(), text });
       }
     });
 
@@ -195,7 +203,7 @@ export const CaseGame = () => {
 
   const openCase = () => {
     setHasOpen(true);
-    if (hasSound) playClick();
+    playSound(playClick);
     addMoney(-CASES_TYPE[selectedCaseId].price);
     const newItems = generateCaseEmojis(CASES_TYPE[selectedCaseId]);
     setAnimationItems(newItems);
@@ -207,28 +215,29 @@ export const CaseGame = () => {
       const price = PRICE_RARITY[caseItem.rarity as keyof typeof PRICE_RARITY];
       addMoney(price);
     }
-  }
+  };
 
   const canBuyCase = (caseType: CaseType): boolean => {
-    console.log(user?.balance)
     return !!(user?.balance && user?.balance > caseType.price);
-  }
+  };
 
   useEffect(() => {
     if (animationItems.length && isActiveGame) {
       const randomDuration = getRandomInt(3, 5);
 
-      controls.start({
-        x: ["0%", `-${getRandomInt(300, 600)}%`],
-        transition: {
-          repeat: 0,
-          ease: [0.25, 0, 0.25, 1],
-          duration: randomDuration,
-        },
-      }).then(() => {
-        winItem(findCenteredItem());
-        setIsActiveGame(false);
-      });
+      controls
+        .start({
+          x: ['0%', `-${getRandomInt(300, 600)}%`],
+          transition: {
+            repeat: 0,
+            ease: [0.25, 0, 0.25, 1],
+            duration: randomDuration,
+          },
+        })
+        .then(() => {
+          winItem(findCenteredItem());
+          setIsActiveGame(false);
+        });
     }
   }, [animationItems, isActiveGame]);
 
@@ -241,17 +250,16 @@ export const CaseGame = () => {
             {CASES_TYPE.map((caseType, i) => (
               <div
                 key={caseType.name}
-                className={cn("case-game-case",
-                  {
-                    'case-opening': isActiveGame,
-                    'active' : i === selectedCaseId
-                  })}
+                className={cn('case-game-case', {
+                  'case-opening': isActiveGame,
+                  active: i === selectedCaseId,
+                })}
                 onClick={() => {
                   if (!isActiveGame) {
                     setAnimationItems([]);
-                    setHasOpen(false)
+                    setHasOpen(false);
                     setSelectedCaseId(i);
-                    if (hasSound) playClick();
+                    playSound(playClick);
                   }
                 }}
               >
@@ -266,11 +274,10 @@ export const CaseGame = () => {
         <section className="case-game-roulette">
           <div className="case-game-roulette-field">
             {!hasOpen ? (
-                <p className="case-game-bg-text"> Select case and click `Open` to start</p>
-              ) : (
-                <div ref={centerLineRef} className="case-game-roulette-field-line"></div>
-              )
-            }
+              <p className="case-game-bg-text"> Select case and click `Open` to start</p>
+            ) : (
+              <div ref={centerLineRef} className="case-game-roulette-field-line"></div>
+            )}
             <motion.div ref={trackRef} className="roulette-track" animate={controls}>
               {animationItems.map((item, idx) => (
                 <div
@@ -289,9 +296,9 @@ export const CaseGame = () => {
             onClick={() => openCase()}
             disabled={isActiveGame || !canBuyCase(CASES_TYPE[selectedCaseId])}
           >
-            {
-              isActiveGame ? 'Opening...' : `Open ${CASES_TYPE[selectedCaseId].name} - $${CASES_TYPE[selectedCaseId].price}`
-            }
+            {isActiveGame
+              ? 'Opening...'
+              : `Open ${CASES_TYPE[selectedCaseId].name} - $${CASES_TYPE[selectedCaseId].price}`}
           </button>
         </section>
 
@@ -300,7 +307,10 @@ export const CaseGame = () => {
           <div className="case-game-content-grid">
             {CASES_TYPE[selectedCaseId].contain.map((group, groupIdx) =>
               Array.from(group).map((emoji, idx) => (
-                <p key={`${groupIdx}-${idx}`} className={`case-game-content-item case-game-group-${groupIdx}`}>
+                <p
+                  key={`${groupIdx}-${idx}`}
+                  className={`case-game-content-item case-game-group-${groupIdx}`}
+                >
                   {emoji}
                 </p>
               ))
@@ -311,7 +321,7 @@ export const CaseGame = () => {
         <section className="case-game-chances">
           <h2 className="case-game-titles">Rarity Guide</h2>
           <div className="case-game-chances-grid">
-            {CHANGES_RARITY.map(chance => (
+            {CHANGES_RARITY.map((chance) => (
               <div key={chance.category} className="case-game-chances-row">
                 <span className={`chance-dot ${chance.category.toLowerCase()}`}></span>
                 <span className="case-game-chances-grid-category">{chance.category}</span>
@@ -322,5 +332,5 @@ export const CaseGame = () => {
         </section>
       </div>
     </main>
-  )
-}
+  );
+};

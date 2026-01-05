@@ -1,20 +1,31 @@
-import { NavLink } from "react-router-dom"
-import './MainMenu.css'
-import useSound from "use-sound";
-import hoverSound from '../../assets/sounds/hoverSound.mp3'
-import clickSound from '../../assets/sounds/clickMenu.mp3'
-
-import {useAppContext} from "../../hooks/UseAppContext.tsx";
+import { NavLink } from 'react-router-dom';
+import './MainMenu.css';
+import useSound from 'use-sound';
+import hoverSound from '../../assets/sounds/hoverSound.mp3';
+import clickSound from '../../assets/sounds/clickMenu.mp3';
+import { useAppStore } from '../../store/useAppStore.ts';
 
 export const MainMenu = () => {
   const [playHover] = useSound(hoverSound);
   const [playClick] = useSound(clickSound);
-  const { hasSound } = useAppContext();
+  const hasSound = useAppStore((state) => state.hasSound);
 
   const links = [
     {
       linkTo: '/crash-game',
       name: 'Crash game',
+    },
+    {
+      linkTo: '/plinko-game',
+      name: 'Plinko Game',
+    },
+    {
+      linkTo: '/mines-game',
+      name: 'Mines Game',
+    },
+    {
+      linkTo: '/case-game',
+      name: 'Case Game',
     },
     {
       linkTo: '/card-flipper',
@@ -24,10 +35,6 @@ export const MainMenu = () => {
       linkTo: '/bet-calculator',
       name: 'Bet Calculator',
     },
-    {
-      linkTo: '/case-game',
-      name: 'Case Game',
-    }
   ];
 
   return (
@@ -39,12 +46,13 @@ export const MainMenu = () => {
               to={link.linkTo}
               className="main-menu-link"
               onClick={() => hasSound && playClick()}
-              onMouseEnter={() => hasSound && playHover()}>
+              onMouseEnter={() => hasSound && playHover()}
+            >
               {link.name}
             </NavLink>
           </li>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};

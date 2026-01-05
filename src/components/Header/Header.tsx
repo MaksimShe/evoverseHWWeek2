@@ -16,20 +16,16 @@ import { roundBalance } from '../../helper/roundBalance.ts';
 
 export const Header = () => {
   const isDarkMode = useAppStore((state) => state.isDarkMode);
-  const hasSound = useAppStore((state) => state.hasSound);
   const user = useAppStore((state) => state.user);
   const addMoney = useAppStore((state) => state.addMoney);
   const toggleDarkMode = useAppStore((state) => state.toggleDarkMode);
   const toggleSound = useAppStore((state) => state.toggleSound);
+  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
   const [playHeaderMainSound] = useSound(headerSound);
   const [playCashAddSound] = useSound(cashAddSound);
   const location = useLocation();
-
-  const playSound = (sound: () => void) => {
-    if (hasSound) {
-      sound();
-    }
-  };
+  const isActiveHomeBtn = location.pathname !== '/' && location.pathname !== '/login';
 
   const takeGift = () => {
     if (user) {
@@ -50,7 +46,7 @@ export const Header = () => {
 
   return (
     <header className="header">
-      {location.pathname !== '/' && location.pathname !== '/login' ? (
+      {isActiveHomeBtn ? (
         <NavLink to={'/'} className="goHomeWalter" onClick={() => playSound(playHeaderMainSound)}>
           <img className="img-home logo" src={goHomeWalterIcon} alt="Go home" />
         </NavLink>

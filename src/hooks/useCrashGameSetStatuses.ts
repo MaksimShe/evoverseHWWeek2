@@ -15,25 +15,21 @@ type Props = {
 
 export const useCrashGameSetStatuses = ({ bet, maxMltp, handleGameStatus }: Props) => {
   const timeoutRef = useRef<number | null>(null);
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
   const addMoney = useAppStore((state) => state.addMoney);
   const { saveHistory } = useSaveHistory();
   const [playWin] = useSound(winSound);
   const [playLose] = useSound(loseSound);
 
   const setStatusWin = (mltp: number) => {
-    if (hasSound) {
-      playWin();
-    }
+    playSound(playWin);
     handleGameStatus(GameStatus.win);
     saveHistory(mltp, GameEndStatus.won, bet, maxMltp);
     addMoney(mltp * bet - bet);
   };
 
   const setStatusLose = (mltp: number) => {
-    if (hasSound) {
-      playLose();
-    }
+    playSound(playLose);
     handleGameStatus(GameStatus.lose);
     setStatusDisabled();
     saveHistory(mltp, GameEndStatus.lost, bet, maxMltp);

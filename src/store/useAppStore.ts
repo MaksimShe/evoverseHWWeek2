@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Account } from '../hooks/useAuth';
 import { supabase } from '../helper/supabaseClient';
+import { roundBalance } from '../helper/roundBalance.ts';
 
 interface AppState {
   // State
@@ -46,7 +47,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     const { data, error } = await supabase
       .from('profiles')
-      .update({ balance: +newBalance.toFixed(2) })
+      .update({ balance: roundBalance(newBalance) })
       .eq('id', user.id)
       .select()
       .single();

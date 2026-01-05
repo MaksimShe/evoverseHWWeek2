@@ -41,7 +41,7 @@ export const BetCalculator = () => {
   const [playKbClick] = useSound(keyboardClick);
   const [playBtnClick] = useSound(btnClick);
   const [playClearHistory] = useSound(clearHistorySound);
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
   const [value, setValue] = useState<number>(0);
   const [coef, setCoef] = useState<number>(0);
   const [betType, setBetType] = useState<number | null>(null);
@@ -53,17 +53,13 @@ export const BetCalculator = () => {
   });
 
   const handleValueChange = (value: number) => {
-    if (hasSound) {
-      playKbClick();
-    }
+    playSound(playKbClick);
     setValue(value);
     setErrorMsg('');
   };
 
   const handleCoefChange = (value: number) => {
-    if (hasSound) {
-      playKbClick();
-    }
+    playSound(playKbClick);
     setCoef(value);
     setErrorMsg('');
   };
@@ -157,9 +153,7 @@ export const BetCalculator = () => {
                   onChange={() => {
                     setBetType(radioBtn.id);
                     setErrorMsg('');
-                    if (hasSound) {
-                      playBtnClick();
-                    }
+                    playSound(playBtnClick);
                   }}
                 />
                 <label htmlFor={radioBtn.nameProp}>{radioBtn.name}</label>
@@ -174,9 +168,7 @@ export const BetCalculator = () => {
             type="submit"
             onClick={(event) => {
               saveResult(event);
-              if (hasSound) {
-                playBtnClick();
-              }
+              playSound(playBtnClick);
             }}
           >
             Save result
@@ -185,9 +177,7 @@ export const BetCalculator = () => {
             className="button-bet"
             onClick={() => {
               clearHistory();
-              if (hasSound) {
-                playClearHistory();
-              }
+              playSound(playClearHistory);
             }}
           >
             Clear history

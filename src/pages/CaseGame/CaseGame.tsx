@@ -152,7 +152,7 @@ export const CaseGame = () => {
 
   const addMoney = useAppStore((state) => state.addMoney);
   const user = useAppStore((state) => state.user);
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
 
   const findCenteredItem = (): CaseItem | null => {
     if (!trackRef.current || !centerLineRef.current) {
@@ -203,9 +203,7 @@ export const CaseGame = () => {
 
   const openCase = () => {
     setHasOpen(true);
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     addMoney(-CASES_TYPE[selectedCaseId].price);
     const newItems = generateCaseEmojis(CASES_TYPE[selectedCaseId]);
     setAnimationItems(newItems);
@@ -261,9 +259,7 @@ export const CaseGame = () => {
                     setAnimationItems([]);
                     setHasOpen(false);
                     setSelectedCaseId(i);
-                    if (hasSound) {
-                      playClick();
-                    }
+                    playSound(playClick);
                   }
                 }}
               >

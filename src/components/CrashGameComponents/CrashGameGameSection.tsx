@@ -44,7 +44,7 @@ export const CrashGameGameSection: FC<Props> = ({
   const [autoStopStatus, setAutoStopStatus] = useState(false);
   const [autoStop, setAutoStop] = useState(MINES_GAME_CONFIG.CRASH.MIN_AUTO_STOP);
 
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
 
   const [playClick] = useSound(clickSound);
 
@@ -66,9 +66,7 @@ export const CrashGameGameSection: FC<Props> = ({
     });
 
   const addTenPercentFromBalance = () => {
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     const increment = roundBalance(balance * 0.1);
     if (balance > bet + 5) {
       handleBet(bet + increment);
@@ -78,9 +76,7 @@ export const CrashGameGameSection: FC<Props> = ({
   };
 
   const addAll = () => {
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     if (balance > 1) {
       handleBet(balance);
     }

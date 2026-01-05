@@ -17,7 +17,7 @@ export const CardFlipper = () => {
     backSide: [bmw3New, bmw5New, bmw8New],
   };
 
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
 
   const [playBMW] = useSound(bmwSound);
 
@@ -28,9 +28,7 @@ export const CardFlipper = () => {
   baseValidation();
 
   const handleHoverOnCard = () => {
-    if (hasSound) {
-      playBMW();
-    }
+    playSound(playBMW);
   };
 
   return (

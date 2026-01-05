@@ -43,7 +43,7 @@ export const useCrashGameLogic = ({
   handleAutoStop,
   playClick,
 }: Props): UseCrashGameLogicReturn => {
-  const hasSound = useAppStore((state) => state.hasSound);
+  const playSound = useAppStore((state) => state.playSound);
 
   const finishCounter = () => {
     handleIsFinished(true);
@@ -64,9 +64,7 @@ export const useCrashGameLogic = ({
   };
 
   const betValidator = (value: number) => {
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     if (value > (balance || 0)) {
       handleBet(balance || 0);
     } else if (value < 0) {
@@ -77,9 +75,7 @@ export const useCrashGameLogic = ({
   };
 
   const changeAutoStop = (val: number) => {
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     if (autoStop < minAutoStop + stepAutoStop && val < 0) {
       handleAutoStop(minAutoStop);
     } else {
@@ -88,9 +84,7 @@ export const useCrashGameLogic = ({
   };
 
   const changeAutoStopGame = () => {
-    if (hasSound) {
-      playClick();
-    }
+    playSound(playClick);
     handleAutoStopStatus(!autoStopStatus);
   };
 
